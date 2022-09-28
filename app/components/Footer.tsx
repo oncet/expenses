@@ -1,4 +1,4 @@
-import { Button, chakra, useColorMode } from "@chakra-ui/react";
+import { chakra, IconButton, useColorMode } from "@chakra-ui/react";
 import { MoonIcon } from "@chakra-ui/icons";
 
 export default function Footer() {
@@ -6,9 +6,11 @@ export default function Footer() {
 
   return (
     <chakra.footer>
-      <Button onClick={toggleColorMode}>
-        <MoonIcon />
-      </Button>
+      <IconButton
+        icon={<MoonIcon />}
+        aria-label="Toggle dark mode"
+        onClick={toggleColorMode}
+      />
     </chakra.footer>
   );
 }

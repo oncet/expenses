@@ -1,11 +1,14 @@
+import { Link as RemixLink } from "@remix-run/react";
 import {
   Button,
   Heading,
+  Link,
   Stack,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Tr,
 } from "@chakra-ui/react";
 
@@ -59,6 +62,11 @@ export default function Index() {
           </Tbody>
         </Table>
       </TableContainer>
+      <Text textAlign="right">
+        <Link as={RemixLink} to="#">
+          View more &rarr;
+        </Link>
+      </Text>
     </Stack>
   );
 }
