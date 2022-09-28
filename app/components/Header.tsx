@@ -1,4 +1,4 @@
-import { chakra, Container, Heading } from "@chakra-ui/react";
+import { chakra, Heading } from "@chakra-ui/react";
 
 export default function Header() {
   return (

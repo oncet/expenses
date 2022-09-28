@@ -13,6 +13,7 @@ import { chakra, ChakraProvider, Container, Stack } from "@chakra-ui/react";
 
 import { ServerStyleContext, ClientStyleContext } from "./context";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -88,6 +89,7 @@ export default function App() {
             <chakra.main>
               <Outlet />
             </chakra.main>
+            <Footer />
           </Stack>
         </Container>
       </ChakraProvider>
