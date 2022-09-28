@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Heading,
   Stack,
@@ -7,9 +6,6 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Text,
-  Th,
-  Thead,
   Tr,
 } from "@chakra-ui/react";
 
@@ -51,14 +47,6 @@ export default function Index() {
             <Tr>
               <Td>Gas</Td>
               <Td isNumeric>$2789</Td>
-            </Tr>
-            <Tr>
-              <Td>Luz</Td>
-              <Td isNumeric>$0</Td>
-            </Tr>
-            <Tr>
-              <Td>Impuesto municipal</Td>
-              <Td isNumeric>$0</Td>
             </Tr>
             <Tr>
               <Td>Internet</Td>

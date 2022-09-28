@@ -1,18 +1,13 @@
-import {
-  Button,
-  chakra,
-  Container,
-  Heading,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Button, chakra, useColorMode } from "@chakra-ui/react";
+import { MoonIcon } from "@chakra-ui/icons";
 
 export default function Footer() {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { toggleColorMode } = useColorMode();
 
   return (
     <chakra.footer>
       <Button onClick={toggleColorMode}>
-        Toggle {colorMode === "light" ? "Dark" : "Light"}
+        <MoonIcon />
       </Button>
     </chakra.footer>
   );
