@@ -1,32 +1,76 @@
+import {
+  Box,
+  Button,
+  Heading,
+  Stack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
+
 export default function Index() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-    </div>
+    <Stack>
+      <Heading>This month</Heading>
+      <Button>Register payment</Button>
+      <TableContainer>
+        <Table>
+          <Tbody>
+            <Tr>
+              <Td>Personal</Td>
+              <Td isNumeric>$5000</Td>
+            </Tr>
+            <Tr>
+              <Td>Alquiler</Td>
+              <Td isNumeric>$46100</Td>
+            </Tr>
+            <Tr>
+              <Td>Gas</Td>
+              <Td isNumeric>$2789</Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Heading>Last month</Heading>
+      <TableContainer>
+        <Table>
+          <Tbody>
+            <Tr>
+              <Td>Personal</Td>
+              <Td isNumeric>$5000</Td>
+            </Tr>
+            <Tr>
+              <Td>Alquiler</Td>
+              <Td isNumeric>$46100</Td>
+            </Tr>
+            <Tr>
+              <Td>Gas</Td>
+              <Td isNumeric>$2789</Td>
+            </Tr>
+            <Tr>
+              <Td>Luz</Td>
+              <Td isNumeric>$0</Td>
+            </Tr>
+            <Tr>
+              <Td>Impuesto municipal</Td>
+              <Td isNumeric>$0</Td>
+            </Tr>
+            <Tr>
+              <Td>Internet</Td>
+              <Td isNumeric>$13750</Td>
+            </Tr>
+            <Tr>
+              <Td>Tarjeta</Td>
+              <Td isNumeric>$139755</Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Stack>
   );
 }
