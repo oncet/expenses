@@ -2,14 +2,7 @@ import { Link as RemixLink } from "@remix-run/react";
 import {
   Button,
   Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
   Heading,
-  Input,
   Link,
   Stack,
   Table,
@@ -20,6 +13,7 @@ import {
   Tr,
   useBoolean,
 } from "@chakra-ui/react";
+import PaymentDrawer from "~/components/PaymentDrawer";
 
 export default function Index() {
   const [isOpen, setIsOpen] = useBoolean();
@@ -29,20 +23,7 @@ export default function Index() {
       <Heading>This month</Heading>
       <Button onClick={setIsOpen.on}>Register payment</Button>
       <Drawer isOpen={isOpen} placement="right" onClose={setIsOpen.off}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Register payment</DrawerHeader>
-          <DrawerBody>
-            <Input placeholder="Type here..." />
-          </DrawerBody>
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={setIsOpen.off}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save payment</Button>
-          </DrawerFooter>
-        </DrawerContent>
+        <PaymentDrawer onCancel={setIsOpen.off} />
       </Drawer>
       <TableContainer>
         <Table>
