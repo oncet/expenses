@@ -33,7 +33,7 @@ export default function Index() {
     <Stack>
       <Text>
         <Link as={RemixLink} to="add">
-          Register payment
+          Payment registration
         </Link>
       </Text>
       <Heading>This month</Heading>
