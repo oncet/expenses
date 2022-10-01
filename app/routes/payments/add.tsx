@@ -46,6 +46,24 @@ export default function Index() {
             <FormHelperText>Enter any additional details.</FormHelperText>
           </FormControl>
           <FormControl>
+            <FormLabel>Files</FormLabel>
+            <Input
+              type="file"
+              multiple
+              sx={{
+                "::file-selector-button": {
+                  height: 10,
+                  padding: 0,
+                  mr: 4,
+                  background: "none",
+                  border: "none",
+                  fontWeight: "bold",
+                },
+              }}
+            />
+            <FormHelperText>Attach any related documents.</FormHelperText>
+          </FormControl>
+          <FormControl>
             <FormLabel>Date</FormLabel>
             <Input type="date" />
           </FormControl>
