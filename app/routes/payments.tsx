@@ -1,6 +1,15 @@
-import { Form, Link as RemixLink, Outlet } from "@remix-run/react";
+import {
+  Form,
+  Link as RemixLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "@remix-run/react";
 import {
   Button,
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
   Heading,
   Link,
   Stack,
@@ -13,6 +22,13 @@ import {
 } from "@chakra-ui/react";
 
 export default function Index() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const navigateToPayments = () => {
+    navigate("/payments");
+  };
+
   return (
     <Stack>
       <Text>
@@ -21,7 +37,16 @@ export default function Index() {
         </Link>
       </Text>
       <Heading>This month</Heading>
-      <Outlet />
+      <Drawer
+        isOpen={location.pathname === "/payments/add"}
+        placement="right"
+        onClose={navigateToPayments}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <Outlet context={{ onClose: navigateToPayments }} />
+        </DrawerContent>
+      </Drawer>
       <TableContainer>
         <Table>
           <Tbody>
