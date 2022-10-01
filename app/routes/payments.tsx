@@ -32,9 +32,11 @@ export default function Index() {
   return (
     <Stack>
       <Text>
-        <Link as={RemixLink} to="add">
-          Payment registration
-        </Link>
+        <em>
+          <Link as={RemixLink} to="add">
+            Payment registration &rarr;
+          </Link>
+        </em>
       </Text>
       <Heading>This month</Heading>
       <Drawer
