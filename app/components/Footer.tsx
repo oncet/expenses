@@ -5,7 +5,7 @@ export default function Footer() {
   const { toggleColorMode } = useColorMode();
 
   return (
-    <chakra.footer>
+    <chakra.footer display="flex" justifyContent="flex-end">
       <IconButton
         icon={<MoonIcon />}
         aria-label="Toggle dark mode"
