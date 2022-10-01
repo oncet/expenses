@@ -1,5 +1,6 @@
 import {
   Button,
+  Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
@@ -13,16 +14,18 @@ import {
   Select,
   Stack,
   Textarea,
-  useBoolean,
 } from "@chakra-ui/react";
+import { useNavigate } from "@remix-run/react";
 
-type PaymentDrawerProps = {
-  onCancel: () => void;
-};
+export default function Index() {
+  const navigate = useNavigate();
 
-export default function PaymentDrawer({ onCancel }: PaymentDrawerProps) {
+  const navigateToPayments = () => {
+    navigate("/payments");
+  };
+
   return (
-    <>
+    <Drawer isOpen placement="right" onClose={navigateToPayments}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
@@ -56,12 +59,12 @@ export default function PaymentDrawer({ onCancel }: PaymentDrawerProps) {
           </Stack>
         </DrawerBody>
         <DrawerFooter>
-          <Button variant="outline" mr={3} onClick={onCancel}>
+          <Button variant="outline" mr={3} onClick={navigateToPayments}>
             Cancel
           </Button>
           <Button colorScheme="blue">Save payment</Button>
         </DrawerFooter>
       </DrawerContent>
-    </>
+    </Drawer>
   );
 }

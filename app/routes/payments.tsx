@@ -1,7 +1,6 @@
-import { Form, Link as RemixLink } from "@remix-run/react";
+import { Form, Link as RemixLink, Outlet } from "@remix-run/react";
 import {
   Button,
-  Drawer,
   Heading,
   Link,
   Stack,
@@ -11,20 +10,18 @@ import {
   Td,
   Text,
   Tr,
-  useBoolean,
 } from "@chakra-ui/react";
-import PaymentDrawer from "~/components/PaymentDrawer";
 
 export default function Index() {
-  const [isOpen, setIsOpen] = useBoolean();
-
   return (
     <Stack>
+      <Text>
+        <Link as={RemixLink} to="add">
+          Register payment
+        </Link>
+      </Text>
       <Heading>This month</Heading>
-      <Button onClick={setIsOpen.on}>Register payment</Button>
-      <Drawer isOpen={isOpen} placement="right" onClose={setIsOpen.off}>
-        <PaymentDrawer onCancel={setIsOpen.off} />
-      </Drawer>
+      <Outlet />
       <TableContainer>
         <Table>
           <Tbody>
