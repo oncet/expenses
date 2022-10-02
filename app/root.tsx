@@ -84,9 +84,9 @@ export default function App() {
     <Document>
       <ChakraProvider>
         <Container maxW="container.lg">
-          <Stack py="2">
+          <Stack py="2" minH="100vh">
             <Header />
-            <chakra.main>
+            <chakra.main flexGrow="1">
               <Outlet />
             </chakra.main>
             <Footer />

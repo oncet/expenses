@@ -21,7 +21,30 @@ import {
   Tr,
 } from "@chakra-ui/react";
 
-export default function Index() {
+const paymentsData = [
+  {
+    month: 10,
+    payments: [
+      {
+        id: 1,
+        description: "Personal",
+        amount: 5000,
+      },
+    ],
+  },
+  {
+    month: 9,
+    payments: [
+      {
+        id: 1,
+        description: "Personal",
+        amount: 5000,
+      },
+    ],
+  },
+];
+
+export default function Payments() {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -38,7 +61,6 @@ export default function Index() {
           </Link>
         </em>
       </Text>
-      <Heading>This month</Heading>
       <Drawer
         isOpen={location.pathname === "/payments/add"}
         placement="right"
@@ -49,7 +71,24 @@ export default function Index() {
           <Outlet context={{ onClose: navigateToPayments }} />
         </DrawerContent>
       </Drawer>
-      <TableContainer>
+      {paymentsData.map((paymentData) => (
+        <div key={paymentData.month}>
+          <Heading>Month #{paymentData.month}</Heading>
+          <TableContainer>
+            <Table>
+              <Tbody>
+                {paymentData.payments.map((payment) => (
+                  <Tr key={payment.id}>
+                    <Td>{payment.description}</Td>
+                    <Td>{payment.amount}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </div>
+      ))}
+      {/* <TableContainer>
         <Table>
           <Tbody>
             <Tr>
@@ -93,7 +132,7 @@ export default function Index() {
             </Tr>
           </Tbody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
       <Form>
         <Stack>
           <Button>Load more payments</Button>
