@@ -16,13 +16,13 @@ import { useOutletContext } from "@remix-run/react";
 
 type ContextType = { onClose: () => {} };
 
-export default function Add() {
+export default function Edit() {
   const { onClose } = useOutletContext<ContextType>();
 
   return (
     <>
       <DrawerCloseButton />
-      <DrawerHeader>Register payment</DrawerHeader>
+      <DrawerHeader>Edit payment</DrawerHeader>
       <DrawerBody>
         <Stack>
           <FormControl>
