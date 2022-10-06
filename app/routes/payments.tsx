@@ -7,9 +7,6 @@ import {
 } from "@remix-run/react";
 import {
   Button,
-  Drawer,
-  DrawerContent,
-  DrawerOverlay,
   Heading,
   HStack,
   Link,
@@ -24,6 +21,7 @@ import {
 
 import PencilSquareIcon from "~/components/icons/PencilSquareIcon";
 import { paymentsData } from "~/utils/mocks";
+import PaymentsDrawer from "~/components/PaymentsDrawer";
 
 export default function Payments() {
   const location = useLocation();
@@ -41,20 +39,10 @@ export default function Payments() {
             Payment registration &rarr;
           </Link>
         </em>
-      </Text>
-      <Drawer
-        isOpen={
-          location.pathname === "/payments/add" ||
-          location.pathname === "/payments/edit/1"
-        }
-        placement="right"
-        onClose={navigateToPayments}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
+        <PaymentsDrawer>
           <Outlet context={{ onClose: navigateToPayments }} />
-        </DrawerContent>
-      </Drawer>
+        </PaymentsDrawer>
+      </Text>
       {paymentsData.map((paymentData) => (
         <div key={paymentData.month}>
           <Heading>Month #{paymentData.month}</Heading>
