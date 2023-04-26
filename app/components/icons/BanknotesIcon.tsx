@@ -1,8 +1,15 @@
-import { Icon } from "@chakra-ui/react";
+import { Icon, useColorModeValue } from "@chakra-ui/react";
 
 export default function BanknotesIcon() {
+  const strokeColor = useColorModeValue("black", "white");
+
   return (
-    <Icon viewBox="0 0 24 24" stroke="white" strokeWidth={1.5} boxSize={6}>
+    <Icon
+      viewBox="0 0 24 24"
+      stroke={strokeColor}
+      strokeWidth={1.5}
+      boxSize={6}
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
