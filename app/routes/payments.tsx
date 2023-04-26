@@ -12,14 +12,14 @@ import {
   Text,
   Tr,
   chakra,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
-import BanknotesIcon from "~/components/icons/BanknotesIcon";
 import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 import { paymentsData } from "~/utils/mocks";
 import PaymentsDrawer from "~/components/PaymentsDrawer";
 
-function monthNumberToName(monthNumber: number | undefined) {
+function monthNumberToName(monthNumber?: number) {
   const currentYear = new Date().getFullYear();
   const date =
     monthNumber !== undefined
@@ -30,13 +30,15 @@ function monthNumberToName(monthNumber: number | undefined) {
 
 export default function Payments() {
   const navigate = useNavigate();
+  const borderColor = useColorModeValue("gray.300", "blue.800");
+  const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
 
   const navigateToPayments = () => {
     navigate("/payments");
   };
 
   return (
-    <Stack gap="5">
+    <Stack spacing="4">
       <Stack>
         <Heading>Payments</Heading>
         <Text>
@@ -53,14 +55,19 @@ export default function Payments() {
       </Stack>
       <chakra.div
         border="2px solid"
-        borderColor="blue.800"
+        borderColor={borderColor}
         borderRadius="lg"
         overflow="hidden"
       >
         <Heading as="h3" size="lg" px="4" py="2">
-          {monthNumberToName()} (current month)
+          {monthNumberToName()} (current)
         </Heading>
-        <Text px="4" py="2">
+        <Text
+          px="4"
+          py="2"
+          borderTop="1px solid"
+          borderColor={borderColorEmpty}
+        >
           No payments registered for this month.
         </Text>
       </chakra.div>
@@ -68,7 +75,7 @@ export default function Payments() {
         <chakra.div
           key={paymentData.month}
           border="2px solid"
-          borderColor="blue.800"
+          borderColor={borderColor}
           borderRadius="lg"
           overflow="hidden"
         >
@@ -80,11 +87,7 @@ export default function Payments() {
               <Tbody>
                 {paymentData.payments.map((payment) => (
                   <Tr key={payment.id}>
-                    <Td width="0">
-                      <Link as={RemixLink} to={"edit/" + payment.id}>
-                        <span>{payment.description}</span>
-                      </Link>
-                    </Td>
+                    <Td width="0">{payment.description}</Td>
                     <Td isNumeric>${payment.amount}</Td>
                   </Tr>
                 ))}
