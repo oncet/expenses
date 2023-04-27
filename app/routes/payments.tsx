@@ -1,23 +1,24 @@
-import { Form, Link as RemixLink, Outlet, useNavigate } from "@remix-run/react";
 import {
   Button,
+  HStack,
   Heading,
   Link,
   Stack,
-  HStack,
   Table,
   TableContainer,
   Tbody,
   Td,
   Text,
   Tr,
-  chakra,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { Form, Outlet, Link as RemixLink, useNavigate } from "@remix-run/react";
 
+import MonthCard from "~/components/MonthCard";
+import MonthCardHeading from "~/components/MonthCardHeading";
+import PaymentsDrawer from "~/components/PaymentsDrawer";
 import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 import { paymentsData } from "~/utils/mocks";
-import PaymentsDrawer from "~/components/PaymentsDrawer";
 
 function monthNumberToName(monthNumber?: number) {
   const currentYear = new Date().getFullYear();
@@ -30,7 +31,6 @@ function monthNumberToName(monthNumber?: number) {
 
 export default function Payments() {
   const navigate = useNavigate();
-  const borderColor = useColorModeValue("gray.300", "blue.800");
   const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
 
   const navigateToPayments = () => {
@@ -53,15 +53,8 @@ export default function Payments() {
           </PaymentsDrawer>
         </Text>
       </Stack>
-      <chakra.div
-        border="2px solid"
-        borderColor={borderColor}
-        borderRadius="lg"
-        overflow="hidden"
-      >
-        <Heading as="h3" size="lg" px="4" py="2">
-          {monthNumberToName()} (current)
-        </Heading>
+      <MonthCard>
+        <MonthCardHeading>{monthNumberToName()} (current)</MonthCardHeading>
         <Text
           px="4"
           py="2"
@@ -70,18 +63,12 @@ export default function Payments() {
         >
           No payments registered for this month.
         </Text>
-      </chakra.div>
+      </MonthCard>
       {paymentsData.map((paymentData) => (
-        <chakra.div
-          key={paymentData.month}
-          border="2px solid"
-          borderColor={borderColor}
-          borderRadius="lg"
-          overflow="hidden"
-        >
-          <Heading as="h3" size="lg" px="4" py="2">
+        <MonthCard key={paymentData.month}>
+          <MonthCardHeading>
             {monthNumberToName(paymentData.month)}
-          </Heading>
+          </MonthCardHeading>
           <TableContainer>
             <Table size="sm" variant="striped">
               <Tbody>
@@ -97,7 +84,7 @@ export default function Payments() {
           <Text px="4" py="2" textAlign="right">
             And 8 more...
           </Text>
-        </chakra.div>
+        </MonthCard>
       ))}
       <Form>
         <Stack>
