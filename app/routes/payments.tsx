@@ -19,6 +19,7 @@ import MonthCardHeading from "~/components/MonthCardHeading";
 import PaymentsDrawer from "~/components/PaymentsDrawer";
 import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 import { paymentsData } from "~/utils/mocks";
+import ArrowRightIcon from "../components/icons/ArrowRightIcon";
 
 function monthNumberToName(monthNumber?: number) {
   const currentYear = new Date().getFullYear();
@@ -54,7 +55,9 @@ export default function Payments() {
         </Text>
       </Stack>
       <MonthCard>
-        <MonthCardHeading>{monthNumberToName()} (current)</MonthCardHeading>
+        <MonthCardHeading>
+          {monthNumberToName()} (current) <ArrowRightIcon />
+        </MonthCardHeading>
         <Text
           px="4"
           py="2"
@@ -67,7 +70,10 @@ export default function Payments() {
       {paymentsData.map((paymentData) => (
         <MonthCard key={paymentData.month}>
           <MonthCardHeading>
-            {monthNumberToName(paymentData.month)}
+            <HStack justifyContent="space-between">
+              <span>{monthNumberToName(paymentData.month)}</span>
+              <ArrowRightIcon />
+            </HStack>
           </MonthCardHeading>
           <TableContainer>
             <Table size="sm" variant="striped">
