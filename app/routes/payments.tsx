@@ -56,7 +56,17 @@ export default function Payments() {
       </Stack>
       <MonthCard>
         <MonthCardHeading>
-          {monthNumberToName()} (current) <ArrowRightIcon />
+          <Link
+            as={RemixLink}
+            to={monthNumberToName()}
+            px="4"
+            py="2"
+            display="block"
+          >
+            <HStack justifyContent="space-between">
+              <span>{monthNumberToName()} (current)</span> <ArrowRightIcon />
+            </HStack>
+          </Link>
         </MonthCardHeading>
         <Text
           px="4"
@@ -70,10 +80,18 @@ export default function Payments() {
       {paymentsData.map((paymentData) => (
         <MonthCard key={paymentData.month}>
           <MonthCardHeading>
-            <HStack justifyContent="space-between">
-              <span>{monthNumberToName(paymentData.month)}</span>
-              <ArrowRightIcon />
-            </HStack>
+            <Link
+              as={RemixLink}
+              to={monthNumberToName(paymentData.month)}
+              px="4"
+              py="2"
+              display="block"
+            >
+              <HStack justifyContent="space-between">
+                <span>{monthNumberToName(paymentData.month)}</span>
+                <ArrowRightIcon />
+              </HStack>
+            </Link>
           </MonthCardHeading>
           <TableContainer>
             <Table size="sm" variant="striped">

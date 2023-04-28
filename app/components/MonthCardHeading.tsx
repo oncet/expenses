@@ -7,7 +7,7 @@ type MonthCardHeadingProps = {
 
 export default function MonthCardHeading({ children }: MonthCardHeadingProps) {
   return (
-    <Heading as="h3" size="lg" px="4" py="2">
+    <Heading as="h3" size="lg">
       {children}
     </Heading>
   );
