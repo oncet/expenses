@@ -19,7 +19,7 @@ import MonthCardHeading from "~/components/MonthCardHeading";
 import PaymentsDrawer from "~/components/PaymentsDrawer";
 import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 import { paymentsData } from "~/utils/mocks";
-import ArrowRightIcon from "../components/icons/ArrowRightIcon";
+import ArrowRightIcon from "../../components/icons/ArrowRightIcon";
 
 function monthNumberToName(monthNumber?: number) {
   const currentYear = new Date().getFullYear();
@@ -41,7 +41,7 @@ export default function Payments() {
   return (
     <Stack spacing="4">
       <Stack>
-        <Heading>Payments</Heading>
+        <Heading as="h2">Payments</Heading>
         <Text>
           <Link as={RemixLink} to="add" display="inline-block">
             <HStack>
@@ -58,7 +58,7 @@ export default function Payments() {
         <MonthCardHeading>
           <Link
             as={RemixLink}
-            to={monthNumberToName()}
+            to={`view/${monthNumberToName()}`}
             px="4"
             py="2"
             display="block"
@@ -82,7 +82,7 @@ export default function Payments() {
           <MonthCardHeading>
             <Link
               as={RemixLink}
-              to={monthNumberToName(paymentData.month)}
+              to={`view/${monthNumberToName(paymentData.month)}`}
               px="4"
               py="2"
               display="block"
