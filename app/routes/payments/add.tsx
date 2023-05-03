@@ -1,18 +1,34 @@
 import {
+  Button,
   FormControl,
   FormHelperText,
   FormLabel,
+  HStack,
   Heading,
   Input,
+  Link,
   Select,
   Stack,
+  Text,
   Textarea,
 } from "@chakra-ui/react";
+import { Link as RemixLink } from "@remix-run/react";
+import ArrowLeftIcon from "../../components/icons/ArrowLeftIcon";
 
 export default function Add() {
   return (
-    <Stack>
-      <Heading as="h2">Add new payment</Heading>
+    <Stack spacing="3">
+      <Stack>
+        <Heading as="h2">Add new payment</Heading>
+        <Text>
+          <Link as={RemixLink} to="/payments" display="inline-block">
+            <HStack>
+              <ArrowLeftIcon />
+              <em>Back to payments</em>
+            </HStack>
+          </Link>
+        </Text>
+      </Stack>
       <FormControl>
         <FormLabel>Select category</FormLabel>
         <Select>
@@ -55,6 +71,8 @@ export default function Add() {
         <FormLabel>Date</FormLabel>
         <Input type="date" />
       </FormControl>
+      <Button colorScheme="green">Save payment</Button>
+      <Button colorScheme="red">Reset form</Button>
     </Stack>
   );
 }
