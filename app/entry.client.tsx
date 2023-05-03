@@ -3,8 +3,8 @@ import { CacheProvider } from "@emotion/react";
 import { useState } from "react";
 import { hydrateRoot } from "react-dom/client";
 
-import { ClientStyleContext } from "./context";
-import createEmotionCache from "./createEmotionCache";
+import { ClientStyleContext } from "~/context";
+import createEmotionCache from "~/createEmotionCache";
 
 interface ClientCacheProviderProps {
   children: React.ReactNode;

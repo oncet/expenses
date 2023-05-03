@@ -12,14 +12,13 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Form, Outlet, Link as RemixLink, useNavigate } from "@remix-run/react";
+import { Form, Link as RemixLink } from "@remix-run/react";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
-import PaymentsDrawer from "~/components/PaymentsDrawer";
+import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 import { paymentsData } from "~/utils/mocks";
-import ArrowRightIcon from "../../components/icons/ArrowRightIcon";
 
 function monthNumberToName(monthNumber?: number) {
   const currentYear = new Date().getFullYear();
@@ -31,12 +30,7 @@ function monthNumberToName(monthNumber?: number) {
 }
 
 export default function Payments() {
-  const navigate = useNavigate();
   const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
-
-  const navigateToPayments = () => {
-    navigate("/payments");
-  };
 
   return (
     <Stack spacing="4">
@@ -49,9 +43,6 @@ export default function Payments() {
               <em>Register new payment</em>
             </HStack>
           </Link>
-          <PaymentsDrawer>
-            <Outlet context={{ onClose: navigateToPayments }} />
-          </PaymentsDrawer>
         </Text>
       </Stack>
       <MonthCard>

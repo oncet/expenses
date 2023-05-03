@@ -1,6 +1,6 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { useContext, useEffect } from "react";
+import { ChakraProvider, Container, Stack, chakra } from "@chakra-ui/react";
 import { withEmotionCache } from "@emotion/react";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -9,11 +9,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { chakra, ChakraProvider, Container, Stack } from "@chakra-ui/react";
+import { useContext, useEffect } from "react";
 
-import { ServerStyleContext, ClientStyleContext } from "./context";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Footer from "~/components/Footer";
+import Header from "~/components/Header";
+import { ClientStyleContext, ServerStyleContext } from "./context";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",

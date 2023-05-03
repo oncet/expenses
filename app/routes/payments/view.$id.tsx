@@ -7,12 +7,13 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Tr,
   Text,
+  Tr,
 } from "@chakra-ui/react";
 import { Link as RemixLink } from "@remix-run/react";
-import ArrowLeftIcon from "../../components/icons/ArrowLeftIcon";
-import PlusSmallIcon from "../../components/icons/PlusSmallIcon";
+
+import ArrowLeftIcon from "~/components/icons/ArrowLeftIcon";
+import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 
 export default function View() {
   return (

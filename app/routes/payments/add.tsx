@@ -13,7 +13,8 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { Link as RemixLink } from "@remix-run/react";
-import ArrowLeftIcon from "../../components/icons/ArrowLeftIcon";
+
+import ArrowLeftIcon from "~/components/icons/ArrowLeftIcon";
 
 export default function Add() {
   return (
