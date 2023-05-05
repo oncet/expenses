@@ -17,7 +17,6 @@ import { Form, Link as RemixLink } from "@remix-run/react";
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
 import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
-import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 import { paymentsData } from "~/utils/mocks";
 
 function monthNumberToName(monthNumber?: number) {
@@ -34,17 +33,7 @@ export default function Payments() {
 
   return (
     <Stack spacing="4">
-      <Stack>
-        <Heading as="h2">Payments</Heading>
-        <Text>
-          <Link as={RemixLink} to="add" display="inline-block">
-            <HStack>
-              <PlusSmallIcon />
-              <em>Register new payment</em>
-            </HStack>
-          </Link>
-        </Text>
-      </Stack>
+      <Heading as="h2">Payments</Heading>
       <MonthCard>
         <MonthCardHeading>
           <Link

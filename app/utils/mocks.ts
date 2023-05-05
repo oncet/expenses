@@ -8,12 +8,12 @@ export const paymentsData = [
         amount: 5000,
       },
       {
-        id: 1,
+        id: 2,
         description: "Personal",
         amount: 5000,
       },
       {
-        id: 1,
+        id: 3,
         description: "Personal",
         amount: 5000,
       },
@@ -28,7 +28,7 @@ export const paymentsData = [
         amount: 5000,
       },
       {
-        id: 1,
+        id: 2,
         description: "Personal",
         amount: 5000,
       },

@@ -1,42 +1,16 @@
 import {
-  HStack,
   Heading,
-  Link,
-  Stack,
   Table,
   TableContainer,
   Tbody,
   Td,
-  Text,
   Tr,
 } from "@chakra-ui/react";
-import { Link as RemixLink } from "@remix-run/react";
-
-import ArrowLeftIcon from "~/components/icons/ArrowLeftIcon";
-import PlusSmallIcon from "~/components/icons/PlusSmallIcon";
 
 export default function View() {
   return (
     <>
-      <Stack>
-        <Heading as="h2">October</Heading>
-        <Text>
-          <Link as={RemixLink} to="add" display="inline-block">
-            <HStack>
-              <PlusSmallIcon />
-              <em>Register new payment</em>
-            </HStack>
-          </Link>
-        </Text>
-        <Text>
-          <Link as={RemixLink} to="/payments" display="inline-block">
-            <HStack>
-              <ArrowLeftIcon />
-              <em>Back to payments</em>
-            </HStack>
-          </Link>
-        </Text>
-      </Stack>
+      <Heading as="h2">October</Heading>
       <TableContainer>
         <Table size="sm">
           <Tbody>
