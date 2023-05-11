@@ -25,7 +25,7 @@ function monthNumberToName(monthNumber?: number) {
     monthNumber !== undefined
       ? new Date(currentYear, monthNumber - 1, 1)
       : new Date();
-  return date.toLocaleString("default", { month: "long" });
+  return date.toLocaleString("en-US", { month: "long" });
 }
 
 export default function Payments() {

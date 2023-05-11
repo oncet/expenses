@@ -89,7 +89,7 @@ export default function App() {
             <chakra.main flexGrow="1">
               <Outlet />
             </chakra.main>
-            <Footer />
+            {/* <Footer /> */}
           </Stack>
         </Container>
       </ChakraProvider>

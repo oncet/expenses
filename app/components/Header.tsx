@@ -1,18 +1,32 @@
-import { Link as RemixLink } from "@remix-run/react";
 import {
-  chakra,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  HStack,
   Heading,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  Link,
+  chakra,
+  useColorMode,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { Link as RemixLink } from "@remix-run/react";
+import { useRef } from "react";
+
+import { MoonIcon } from "@chakra-ui/icons";
 import BanknotesIcon from "./icons/BanknotesIcon";
-import { HStack, Link } from "@chakra-ui/react";
 import Bars3Icon from "./icons/Bars3Icon";
 
 export default function Header() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef<HTMLButtonElement | null>(null);
+  const { toggleColorMode } = useColorMode();
+
   return (
     <chakra.header>
       <HStack justifyContent="space-between">
@@ -24,17 +38,29 @@ export default function Header() {
             </HStack>
           </Link>
         </Heading>
-        <Menu>
-          <MenuButton as={IconButton} icon={<Bars3Icon />} aria-label="menu" />
-          <MenuList>
-            <MenuItem as="a" href="#">
-              Link 1
-            </MenuItem>
-            <MenuItem as="a" href="#">
-              Link 2
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <Button leftIcon={<Bars3Icon />} ref={btnRef} onClick={onOpen}>
+          Menu
+        </Button>
+        <Drawer
+          isOpen={isOpen}
+          placement="right"
+          onClose={onClose}
+          finalFocusRef={btnRef}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Navigation</DrawerHeader>
+            <DrawerBody>Aló</DrawerBody>
+            <DrawerFooter>
+              <IconButton
+                icon={<MoonIcon />}
+                aria-label="Toggle dark mode"
+                onClick={toggleColorMode}
+              />
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </HStack>
     </chakra.header>
   );
