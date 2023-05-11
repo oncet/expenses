@@ -30,6 +30,10 @@ export default function Add() {
         <Input type="number" />
       </FormControl>
       <FormControl>
+        <FormLabel>Date</FormLabel>
+        <Input type="date" />
+      </FormControl>
+      <FormControl>
         <FormLabel>Details</FormLabel>
         <Textarea />
         <FormHelperText>Enter additional details.</FormHelperText>
@@ -51,10 +55,6 @@ export default function Add() {
           }}
         />
         <FormHelperText>Attach any related documents.</FormHelperText>
-      </FormControl>
-      <FormControl>
-        <FormLabel>Date</FormLabel>
-        <Input type="date" />
       </FormControl>
       <Button colorScheme="green">Save payment</Button>
       <Button colorScheme="red">Reset form</Button>

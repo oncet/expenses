@@ -11,6 +11,8 @@ import {
   Heading,
   IconButton,
   Link,
+  List,
+  ListItem,
   chakra,
   useColorMode,
   useDisclosure,
@@ -31,7 +33,7 @@ export default function Header() {
     <chakra.header>
       <HStack justifyContent="space-between">
         <Heading as="h1" size="md" fontWeight="light">
-          <Link as={RemixLink} to="/">
+          <Link as={RemixLink} to="/payments">
             <HStack>
               <BanknotesIcon />
               <span>Expenses App</span>
@@ -51,7 +53,22 @@ export default function Header() {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader>Navigation</DrawerHeader>
-            <DrawerBody>Aló</DrawerBody>
+            <DrawerBody>
+              <nav>
+                <List>
+                  <ListItem>
+                    <Link as={RemixLink} to="/payments" onClick={onClose}>
+                      View payments
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link as={RemixLink} to="/payments/add" onClick={onClose}>
+                      Add payment
+                    </Link>
+                  </ListItem>
+                </List>
+              </nav>
+            </DrawerBody>
             <DrawerFooter>
               <IconButton
                 icon={<MoonIcon />}

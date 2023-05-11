@@ -1,16 +1,32 @@
 import {
+  HStack,
   Heading,
+  Link,
+  Stack,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Tr,
 } from "@chakra-ui/react";
+import { Link as RemixLink } from "@remix-run/react";
+
+import PlusIcon from "~/components/icons/PlusIcon";
 
 export default function View() {
   return (
-    <>
-      <Heading as="h2">October</Heading>
+    <Stack spacing="4">
+      <Stack>
+        <Heading as="h2">October</Heading>
+        <Text>
+          <Link as={RemixLink} to="/payments/add" display="block">
+            <HStack as="span">
+              <PlusIcon /> <span>Add new payment</span>
+            </HStack>
+          </Link>
+        </Text>
+      </Stack>
       <TableContainer>
         <Table size="sm">
           <Tbody>
@@ -38,6 +54,6 @@ export default function View() {
           </Tbody>
         </Table>
       </TableContainer>
-    </>
+    </Stack>
   );
 }
