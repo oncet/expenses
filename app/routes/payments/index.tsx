@@ -48,7 +48,7 @@ export default function Payments() {
         <MonthCardHeading>
           <Link
             as={RemixLink}
-            to={`view/${monthNumberToName()}`}
+            to={`date/${monthNumberToName()}`}
             px="4"
             py="2"
             display="block"
@@ -72,7 +72,7 @@ export default function Payments() {
           <MonthCardHeading>
             <Link
               as={RemixLink}
-              to={`view/${monthNumberToName(paymentData.month)}`}
+              to={`date/${monthNumberToName(paymentData.month)}`}
               px="4"
               py="2"
               display="block"

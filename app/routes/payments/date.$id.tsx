@@ -30,26 +30,46 @@ export default function View() {
       <TableContainer>
         <Table size="sm">
           <Tbody>
-            <Tr>
+            <Tr
+              onClick={(event) => {
+                console.log("Test!", event);
+              }}
+              cursor="pointer"
+            >
               <Td whiteSpace="normal">
                 Hola, cómo te va hoy? Todo bien, gracias
               </Td>
               <Td textAlign="center">10 oct</Td>
-              <Td isNumeric>8000</Td>
+              <Td isNumeric>
+                {Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "USD",
+                }).format(8000)}
+              </Td>
             </Tr>
             <Tr>
               <Td whiteSpace="normal">
                 Hola, cómo te va hoy? Todo bien, gracias
               </Td>
               <Td textAlign="center">10 oct</Td>
-              <Td isNumeric>8000</Td>
+              <Td isNumeric>
+                {Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "USD",
+                }).format(8000)}
+              </Td>
             </Tr>
             <Tr>
               <Td whiteSpace="normal">
                 Hola, cómo te va hoy? Todo bien, gracias
               </Td>
               <Td textAlign="center">10 oct</Td>
-              <Td isNumeric>8000</Td>
+              <Td isNumeric>
+                {Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "USD",
+                }).format(8000)}
+              </Td>
             </Tr>
           </Tbody>
         </Table>
