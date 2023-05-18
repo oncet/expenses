@@ -1,30 +1,37 @@
 import {
   Button,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerFooter,
-  DrawerHeader,
   FormControl,
   FormHelperText,
   FormLabel,
+  HStack,
+  Heading,
   Input,
+  Link,
   Select,
   Stack,
   Textarea,
+  Text,
 } from "@chakra-ui/react";
-import { useOutletContext } from "@remix-run/react";
+import { Form } from "@remix-run/react";
+import { Link as RemixLink } from "@remix-run/react";
 
-type ContextType = { onClose: () => {} };
+import ArrowLeftIcon from "../../components/icons/ArrowLeftIcon";
 
 export default function Edit() {
-  const { onClose } = useOutletContext<ContextType>();
-
   return (
-    <>
-      <DrawerCloseButton />
-      <DrawerHeader>Edit payment</DrawerHeader>
-      <DrawerBody>
-        <Stack>
+    <Stack spacing="4">
+      <Stack>
+        <Heading as="h2">Edit payment #id</Heading>
+        <Text>
+          <Link as={RemixLink} to="/payments/123" display="block">
+            <HStack as="span">
+              <ArrowLeftIcon /> <span>View payment</span>
+            </HStack>
+          </Link>
+        </Text>
+      </Stack>
+      <Form>
+        <Stack spacing="4">
           <FormControl>
             <FormLabel>Select an existing description</FormLabel>
             <Select>
@@ -67,14 +74,12 @@ export default function Edit() {
             <FormLabel>Date</FormLabel>
             <Input type="date" />
           </FormControl>
+          <Button colorScheme="blue">Save changes</Button>
+          <Button variant="outline" colorScheme="red">
+            Delete payment
+          </Button>
         </Stack>
-      </DrawerBody>
-      <DrawerFooter>
-        <Button variant="outline" mr={3} onClick={onClose}>
-          Cancel
-        </Button>
-        <Button colorScheme="blue">Save payment</Button>
-      </DrawerFooter>
-    </>
+      </Form>
+    </Stack>
   );
 }
