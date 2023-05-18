@@ -14,21 +14,21 @@ import PlusIcon from "~/components/icons/PlusIcon";
 const data = [
   {
     id: 1,
-    description: "Personal",
+    category: "Personal",
     date: "10 oct",
     amount: 8000,
   },
   {
     id: 2,
-    description: "Alquiler",
+    category: "Alquiler",
     date: "10 oct",
-    amount: 8000,
+    amount: 90000,
   },
   {
     id: 3,
-    description: "Tarjeta",
+    category: "Tarjeta",
     date: "10 oct",
-    amount: 8000,
+    amount: 140000,
   },
 ];
 
@@ -55,18 +55,18 @@ export default function ViewDate() {
           borderRadius="lg"
           overflow="hidden"
         >
-          <Stack as={RemixLink} to="/payments/123" px="4" py="2">
+          <Stack as={RemixLink} to={`/payments/${expense.id}`} px="4" py="2">
             <HStack justifyContent="space-between">
               <Heading as="h3" size="md">
-                Personal
+                {expense.category}
               </Heading>
-              <span>10 oct</span>
+              <span>{expense.date}</span>
             </HStack>
             <Box>
               {Intl.NumberFormat(undefined, {
                 style: "currency",
                 currency: "USD",
-              }).format(8000)}
+              }).format(expense.amount)}
             </Box>
           </Stack>
         </Box>

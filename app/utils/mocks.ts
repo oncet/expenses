@@ -1,6 +1,7 @@
 export const paymentsData = [
   {
-    month: 10,
+    year: "2023",
+    month: "10",
     payments: [
       {
         id: 1,
@@ -20,7 +21,8 @@ export const paymentsData = [
     ],
   },
   {
-    month: 9,
+    year: "2023",
+    month: "9",
     payments: [
       {
         id: 1,

@@ -20,11 +20,11 @@ import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
 import { paymentsData } from "~/utils/mocks";
 
-function monthNumberToName(monthNumber?: number) {
+function monthNumberToName(monthNumber?: string) {
   const currentYear = new Date().getFullYear();
   const date =
     monthNumber !== undefined
-      ? new Date(currentYear, monthNumber - 1, 1)
+      ? new Date(currentYear, Number(monthNumber) - 1, 1)
       : new Date();
   return date.toLocaleString("en-US", { month: "long" });
 }
@@ -72,7 +72,7 @@ export default function Payments() {
           <MonthCardHeading>
             <Link
               as={RemixLink}
-              to={`date/${monthNumberToName(paymentData.month)}`}
+              to={`date/${paymentData.year}/${paymentData.month}`}
               px="4"
               py="2"
               display="block"
