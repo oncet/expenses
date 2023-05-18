@@ -10,11 +10,13 @@ import {
   Text,
   chakra,
 } from "@chakra-ui/react";
-import { Link as RemixLink } from "@remix-run/react";
+import { Link as RemixLink, useParams } from "@remix-run/react";
 
 import PencilSquareIcon from "~/components/icons/PencilSquareIcon";
 
 export default function View() {
+  const { id } = useParams();
+
   return (
     <Stack spacing="4">
       <Stack>
@@ -25,9 +27,9 @@ export default function View() {
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading as="h2">Personal (#id)</Heading>
+        <Heading as="h2">Personal (#{id})</Heading>
         <Text>
-          <Link as={RemixLink} to="/payments/123/edit" display="block">
+          <Link as={RemixLink} to="edit" display="block">
             <HStack as="span">
               <PencilSquareIcon /> <span>Edit payment</span>
             </HStack>

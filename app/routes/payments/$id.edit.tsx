@@ -12,9 +12,11 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@chakra-ui/react";
-import { Link as RemixLink, Form } from "@remix-run/react";
+import { Link as RemixLink, Form, useParams } from "@remix-run/react";
 
 export default function Edit() {
+  const { id } = useParams();
+
   return (
     <Stack spacing="4">
       <Stack>
@@ -26,11 +28,11 @@ export default function Edit() {
           </BreadcrumbItem>
           <BreadcrumbItem>
             <BreadcrumbLink as={RemixLink} to="/payments/123">
-              Payment #id
+              Payment #{id}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading as="h2">Edit payment #id</Heading>
+        <Heading as="h2">Edit payment #{id}</Heading>
       </Stack>
       <Form>
         <Stack spacing="4">
