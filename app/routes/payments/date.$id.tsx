@@ -32,7 +32,7 @@ const data = [
   },
 ];
 
-export default function View() {
+export default function ViewDate() {
   const borderColor = useColorModeValue("gray.300", "blue.800");
 
   return (
@@ -53,10 +53,9 @@ export default function View() {
           border="2px solid"
           borderColor={borderColor}
           borderRadius="lg"
-          px="4"
-          py="2"
+          overflow="hidden"
         >
-          <Stack>
+          <Stack as={RemixLink} to="/payments/123" px="4" py="2">
             <HStack justifyContent="space-between">
               <Heading as="h3" size="md">
                 Personal
