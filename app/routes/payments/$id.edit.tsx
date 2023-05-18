@@ -12,7 +12,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@chakra-ui/react";
-import { Form } from "@remix-run/react";
+import { Link as RemixLink, Form } from "@remix-run/react";
 
 export default function Edit() {
   return (
@@ -20,10 +20,14 @@ export default function Edit() {
       <Stack>
         <Breadcrumb>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">October</BreadcrumbLink>
+            <BreadcrumbLink as={RemixLink} to="/payments/date/October">
+              October
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Payment #id</BreadcrumbLink>
+            <BreadcrumbLink as={RemixLink} to="/payments/123">
+              Payment #id
+            </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <Heading as="h2">Edit payment #id</Heading>

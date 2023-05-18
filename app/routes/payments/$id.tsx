@@ -20,7 +20,9 @@ export default function View() {
       <Stack>
         <Breadcrumb>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">October</BreadcrumbLink>
+            <BreadcrumbLink as={RemixLink} to="/payments/date/October">
+              October
+            </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <Heading as="h2">Personal (#id)</Heading>
