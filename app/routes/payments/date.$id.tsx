@@ -1,6 +1,15 @@
 import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   HStack,
   Heading,
+  Input,
   Link,
   Stack,
   Table,
@@ -9,6 +18,7 @@ import {
   Td,
   Text,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Link as RemixLink } from "@remix-run/react";
 
@@ -36,6 +46,8 @@ const data = [
 ];
 
 export default function View() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Stack spacing="4">
       <Stack>
@@ -52,13 +64,7 @@ export default function View() {
         <Table>
           <Tbody>
             {data.map((expense) => (
-              <Tr
-                key={expense.id}
-                onClick={(event) => {
-                  console.log("Test!", event);
-                }}
-                cursor="pointer"
-              >
+              <Tr key={expense.id} onClick={onOpen} cursor="pointer">
                 <Td whiteSpace="normal">{expense.description}</Td>
                 <Td textAlign="center">{expense.date}</Td>
                 <Td isNumeric>
@@ -72,6 +78,31 @@ export default function View() {
           </Tbody>
         </Table>
       </TableContainer>
+      <Drawer isOpen={isOpen} onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Create your account</DrawerHeader>
+
+          <DrawerBody>
+            <form
+              id="my-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log("submitted");
+              }}
+            >
+              <Input name="nickname" placeholder="Type here..." />
+            </form>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button type="submit" form="my-form">
+              Save
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </Stack>
   );
 }
