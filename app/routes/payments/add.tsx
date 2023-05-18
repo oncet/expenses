@@ -12,7 +12,7 @@ import {
 
 export default function Add() {
   return (
-    <Stack spacing="3">
+    <Stack spacing="4">
       <Heading as="h2">Add new payment</Heading>
       <FormControl>
         <FormLabel>Select category</FormLabel>
