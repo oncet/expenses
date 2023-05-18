@@ -14,6 +14,27 @@ import { Link as RemixLink } from "@remix-run/react";
 
 import PlusIcon from "~/components/icons/PlusIcon";
 
+const data = [
+  {
+    id: 1,
+    description: "Personal",
+    date: "10 oct",
+    amount: 8000,
+  },
+  {
+    id: 2,
+    description: "Alquiler",
+    date: "10 oct",
+    amount: 8000,
+  },
+  {
+    id: 3,
+    description: "Tarjeta",
+    date: "10 oct",
+    amount: 8000,
+  },
+];
+
 export default function View() {
   return (
     <Stack spacing="4">
@@ -28,49 +49,26 @@ export default function View() {
         </Text>
       </Stack>
       <TableContainer>
-        <Table size="sm">
+        <Table>
           <Tbody>
-            <Tr
-              onClick={(event) => {
-                console.log("Test!", event);
-              }}
-              cursor="pointer"
-            >
-              <Td whiteSpace="normal">
-                Hola, cómo te va hoy? Todo bien, gracias
-              </Td>
-              <Td textAlign="center">10 oct</Td>
-              <Td isNumeric>
-                {Intl.NumberFormat(undefined, {
-                  style: "currency",
-                  currency: "USD",
-                }).format(8000)}
-              </Td>
-            </Tr>
-            <Tr>
-              <Td whiteSpace="normal">
-                Hola, cómo te va hoy? Todo bien, gracias
-              </Td>
-              <Td textAlign="center">10 oct</Td>
-              <Td isNumeric>
-                {Intl.NumberFormat(undefined, {
-                  style: "currency",
-                  currency: "USD",
-                }).format(8000)}
-              </Td>
-            </Tr>
-            <Tr>
-              <Td whiteSpace="normal">
-                Hola, cómo te va hoy? Todo bien, gracias
-              </Td>
-              <Td textAlign="center">10 oct</Td>
-              <Td isNumeric>
-                {Intl.NumberFormat(undefined, {
-                  style: "currency",
-                  currency: "USD",
-                }).format(8000)}
-              </Td>
-            </Tr>
+            {data.map((expense) => (
+              <Tr
+                key={expense.id}
+                onClick={(event) => {
+                  console.log("Test!", event);
+                }}
+                cursor="pointer"
+              >
+                <Td whiteSpace="normal">{expense.description}</Td>
+                <Td textAlign="center">{expense.date}</Td>
+                <Td isNumeric>
+                  {Intl.NumberFormat(undefined, {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(expense.amount)}
+                </Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
