@@ -1,24 +1,11 @@
 import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
+  Box,
   HStack,
   Heading,
-  Input,
   Link,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
   Text,
-  Tr,
-  useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Link as RemixLink } from "@remix-run/react";
 
@@ -46,7 +33,7 @@ const data = [
 ];
 
 export default function View() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const borderColor = useColorModeValue("gray.300", "blue.800");
 
   return (
     <Stack spacing="4">
@@ -60,49 +47,31 @@ export default function View() {
           </Link>
         </Text>
       </Stack>
-      <TableContainer>
-        <Table>
-          <Tbody>
-            {data.map((expense) => (
-              <Tr key={expense.id} onClick={onOpen} cursor="pointer">
-                <Td whiteSpace="normal">{expense.description}</Td>
-                <Td textAlign="center">{expense.date}</Td>
-                <Td isNumeric>
-                  {Intl.NumberFormat(undefined, {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(expense.amount)}
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <Drawer isOpen={isOpen} onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
-
-          <DrawerBody>
-            <form
-              id="my-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log("submitted");
-              }}
-            >
-              <Input name="nickname" placeholder="Type here..." />
-            </form>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <Button type="submit" form="my-form">
-              Save
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      {data.map((expense) => (
+        <Box
+          key={expense.id}
+          border="2px solid"
+          borderColor={borderColor}
+          borderRadius="lg"
+          px="4"
+          py="2"
+        >
+          <Stack>
+            <HStack justifyContent="space-between">
+              <Heading as="h3" size="md">
+                Personal
+              </Heading>
+              <span>10 oct</span>
+            </HStack>
+            <Box>
+              {Intl.NumberFormat(undefined, {
+                style: "currency",
+                currency: "USD",
+              }).format(8000)}
+            </Box>
+          </Stack>
+        </Box>
+      ))}
     </Stack>
   );
 }
