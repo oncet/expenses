@@ -3,32 +3,30 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  HStack,
   Heading,
   Input,
-  Link,
   Select,
   Stack,
   Textarea,
-  Text,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
 import { Form } from "@remix-run/react";
-import { Link as RemixLink } from "@remix-run/react";
-
-import ArrowLeftIcon from "../../components/icons/ArrowLeftIcon";
 
 export default function Edit() {
   return (
     <Stack spacing="4">
       <Stack>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">October</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Payment #id</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
         <Heading as="h2">Edit payment #id</Heading>
-        <Text>
-          <Link as={RemixLink} to="/payments/123" display="block">
-            <HStack as="span">
-              <ArrowLeftIcon /> <span>View payment</span>
-            </HStack>
-          </Link>
-        </Text>
       </Stack>
       <Form>
         <Stack spacing="4">
