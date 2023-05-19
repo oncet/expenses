@@ -1,4 +1,7 @@
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Button,
   FormControl,
   FormHelperText,
@@ -8,14 +11,21 @@ import {
   Select,
   Stack,
   Textarea,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
 } from "@chakra-ui/react";
-import { Link as RemixLink, Form, useParams } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
+
+export const loader = async ({ params }: LoaderArgs) => {
+  return json({
+    payment: {
+      id: params.id,
+    },
+  });
+};
 
 export default function Edit() {
-  const { id } = useParams();
+  const { payment } = useLoaderData<typeof loader>();
 
   return (
     <Stack spacing="4">
@@ -28,11 +38,11 @@ export default function Edit() {
           </BreadcrumbItem>
           <BreadcrumbItem>
             <BreadcrumbLink as={RemixLink} to="/payments/123">
-              Payment #{id}
+              Payment #{payment.id}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading as="h2">Edit payment #{id}</Heading>
+        <Heading as="h2">Edit payment #{payment.id}</Heading>
       </Stack>
       <Form>
         <Stack spacing="4">

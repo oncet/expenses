@@ -12,13 +12,14 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Form, Link as RemixLink } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
 import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
-import { paymentsData } from "~/utils/mocks";
+import { paymentsGroups } from "~/utils/mocks";
 
 function monthNumberToName(monthNumber?: string) {
   const currentYear = new Date().getFullYear();
@@ -29,7 +30,15 @@ function monthNumberToName(monthNumber?: string) {
   return date.toLocaleString("en-US", { month: "long" });
 }
 
+export const loader = async () => {
+  return json({
+    paymentsGroups,
+  });
+};
+
 export default function Payments() {
+  const { paymentsGroups } = useLoaderData<typeof loader>();
+
   const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
 
   return (
@@ -67,18 +76,18 @@ export default function Payments() {
           No payments registered for this month.
         </Text>
       </MonthCard>
-      {paymentsData.map((paymentData) => (
-        <MonthCard key={paymentData.month}>
+      {paymentsGroups.map((paymentsGroup) => (
+        <MonthCard key={paymentsGroup.month}>
           <MonthCardHeading>
             <Link
               as={RemixLink}
-              to={`date/${paymentData.year}/${paymentData.month}`}
+              to={`date/${paymentsGroup.year}/${paymentsGroup.month}`}
               px="4"
               py="2"
               display="block"
             >
               <HStack justifyContent="space-between">
-                <span>{monthNumberToName(paymentData.month)}</span>
+                <span>{monthNumberToName(paymentsGroup.month)}</span>
                 <ArrowRightIcon />
               </HStack>
             </Link>
@@ -86,7 +95,7 @@ export default function Payments() {
           <TableContainer>
             <Table size="sm" variant="striped">
               <Tbody>
-                {paymentData.payments.map((payment) => (
+                {paymentsGroup.payments.map((payment) => (
                   <Tr key={payment.id}>
                     <Td width="0">{payment.description}</Td>
                     <Td isNumeric>${payment.amount}</Td>

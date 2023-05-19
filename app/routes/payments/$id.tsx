@@ -10,12 +10,22 @@ import {
   Text,
   chakra,
 } from "@chakra-ui/react";
-import { Link as RemixLink, useParams } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Link as RemixLink, useLoaderData } from "@remix-run/react";
 
 import PencilSquareIcon from "~/components/icons/PencilSquareIcon";
 
+export const loader = async ({ params }: LoaderArgs) => {
+  return json({
+    payment: {
+      id: params.id,
+    },
+  });
+};
+
 export default function View() {
-  const { id } = useParams();
+  const { payment } = useLoaderData<typeof loader>();
 
   return (
     <Stack spacing="4">
@@ -27,7 +37,7 @@ export default function View() {
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading as="h2">Personal (#{id})</Heading>
+        <Heading as="h2">Personal (#{payment.id})</Heading>
         <Text>
           <Link as={RemixLink} to="edit" display="block">
             <HStack as="span">

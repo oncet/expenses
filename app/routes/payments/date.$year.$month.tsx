@@ -7,32 +7,21 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link as RemixLink } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { Link as RemixLink, useLoaderData } from "@remix-run/react";
 
 import PlusIcon from "~/components/icons/PlusIcon";
+import { payments } from "~/utils/mocks";
 
-const data = [
-  {
-    id: 1,
-    category: "Personal",
-    date: "10 oct",
-    amount: 8000,
-  },
-  {
-    id: 2,
-    category: "Alquiler",
-    date: "10 oct",
-    amount: 90000,
-  },
-  {
-    id: 3,
-    category: "Tarjeta",
-    date: "10 oct",
-    amount: 140000,
-  },
-];
+export const loader = async () => {
+  return json({
+    payments,
+  });
+};
 
 export default function ViewDate() {
+  const { payments } = useLoaderData<typeof loader>();
+
   const borderColor = useColorModeValue("gray.300", "blue.800");
 
   return (
@@ -47,26 +36,26 @@ export default function ViewDate() {
           </Link>
         </Text>
       </Stack>
-      {data.map((expense) => (
+      {payments.map((payment) => (
         <Box
-          key={expense.id}
+          key={payment.id}
           border="2px solid"
           borderColor={borderColor}
           borderRadius="lg"
           overflow="hidden"
         >
-          <Stack as={RemixLink} to={`/payments/${expense.id}`} px="4" py="2">
+          <Stack as={RemixLink} to={`/payments/${payment.id}`} px="4" py="2">
             <HStack justifyContent="space-between">
               <Heading as="h3" size="md">
-                {expense.category}
+                {payment.category}
               </Heading>
-              <span>{expense.date}</span>
+              <span>{payment.date}</span>
             </HStack>
             <Box>
               {Intl.NumberFormat(undefined, {
                 style: "currency",
                 currency: "USD",
-              }).format(expense.amount)}
+              }).format(payment.amount)}
             </Box>
           </Stack>
         </Box>
