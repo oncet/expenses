@@ -14,11 +14,14 @@ import {
 } from "@chakra-ui/react";
 import { json } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
 import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
+import * as schema from "~/schemas";
 import { paymentsGroups } from "~/utils/mocks";
 
 function monthNumberToName(monthNumber?: string) {
@@ -31,6 +34,19 @@ function monthNumberToName(monthNumber?: string) {
 }
 
 export const loader = async () => {
+  const queryClient = postgres(process.env.DATABASE_URL as string);
+  const db = drizzle(queryClient, {
+    schema,
+  });
+
+  const payments = await db.query.payment.findMany({
+    with: {
+      categories: true,
+    },
+  });
+
+  console.log("payments", payments);
+
   return json({
     paymentsGroups,
   });

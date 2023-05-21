@@ -18,7 +18,10 @@ export const payment = pgTable("payments", {
 });
 
 export const paymentRelations = relations(payment, ({ one, many }) => ({
-  categories: one(category),
+  categories: one(category, {
+    fields: [payment.categoryId],
+    references: [category.id],
+  }),
   attachments: many(attachment),
 }));
 
