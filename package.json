@@ -3,7 +3,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev"
+    "dev": "remix dev",
+    "generate": "drizzle-kit generate:pg"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.10",
