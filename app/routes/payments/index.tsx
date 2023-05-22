@@ -14,15 +14,15 @@ import {
 } from "@chakra-ui/react";
 import { json } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
-import type { InferModel } from "drizzle-orm";
+import { between } from "drizzle-orm";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
 import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
+import { payment } from "~/schemas";
 import { db } from "~/utils/db";
 import { paymentsGroups } from "~/utils/mocks";
-import { payment } from "../../schemas";
 
 function monthNumberToName(monthNumber?: string) {
   const currentYear = new Date().getFullYear();
@@ -34,26 +34,26 @@ function monthNumberToName(monthNumber?: string) {
 }
 
 export const loader = async () => {
+  const currentMonthStartDay = new Date();
+
+  currentMonthStartDay.setDate(1);
+  currentMonthStartDay.setHours(0, 0, 0, 0);
+
+  const currentMonthEndDay = new Date(
+    currentMonthStartDay.getFullYear(),
+    currentMonthStartDay.getMonth() + 1, // Add 1 to get the next month first date
+    0 // Set day to 0 to get previous month last date
+  );
+
+  currentMonthEndDay.setHours(23, 59, 59, 999);
+
   const payments = await db.query.payment.findMany({
     with: {
       categories: true,
     },
+    where: between(payment.paidOn, currentMonthStartDay, currentMonthEndDay),
     orderBy: payment.paidOn,
   });
-
-  // type Payment = InferModel<typeof payment>;
-
-  /**
-   * Make a query for each month instead.
-   *
-   * Query for the current month and 2 previous months.
-   * Keep searching until you can show at least 3 months.
-   * Maximum check for the last 10 months.
-   * You can get the oldest payment date to know if you need
-   * to show "Load more" button.
-   */
-
-  // const payments = await db.select().from(payment).orderBy(payment.paidOn);
 
   console.log("payments", payments);
 
