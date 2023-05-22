@@ -33,29 +33,40 @@ function monthNumberToName(monthNumber?: string) {
   return date.toLocaleString("en-US", { month: "long" });
 }
 
-export const loader = async () => {
-  const currentMonthStartDay = new Date();
+function getMonthStartDay(date: Date) {
+  const monthStartDate = new Date(date);
 
-  currentMonthStartDay.setDate(1);
-  currentMonthStartDay.setHours(0, 0, 0, 0);
+  monthStartDate.setDate(1);
+  monthStartDate.setHours(0, 0, 0, 0);
 
-  const currentMonthEndDay = new Date(
-    currentMonthStartDay.getFullYear(),
-    currentMonthStartDay.getMonth() + 1, // Add 1 to get the next month first date
-    0 // Set day to 0 to get previous month last date
+  return monthStartDate;
+}
+
+function getMonthLastDay(date: Date) {
+  const monthEndDate = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1, // Add 1 to get the next month first date
+    0 // Then set day to 0 to get previous month last date
   );
 
-  currentMonthEndDay.setHours(23, 59, 59, 999);
+  monthEndDate.setHours(23, 59, 59, 999);
 
-  const payments = await db.query.payment.findMany({
+  return monthEndDate;
+}
+
+export const loader = async () => {
+  const currentMonthStartDate = getMonthStartDay(new Date());
+  const currentMonthEndDate = getMonthLastDay(currentMonthStartDate);
+
+  const currentMonthPayments = await db.query.payment.findMany({
     with: {
       categories: true,
     },
-    where: between(payment.paidOn, currentMonthStartDay, currentMonthEndDay),
+    where: between(payment.paidOn, currentMonthStartDate, currentMonthEndDate),
     orderBy: payment.paidOn,
   });
 
-  console.log("payments", payments);
+  console.log("currentMonthPayments", currentMonthPayments);
 
   return json({
     paymentsGroups,
