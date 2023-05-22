@@ -14,15 +14,15 @@ import {
 } from "@chakra-ui/react";
 import { json } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import type { InferModel } from "drizzle-orm";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
 import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
-import * as schema from "~/schemas";
+import { db } from "~/utils/db";
 import { paymentsGroups } from "~/utils/mocks";
+import { payment } from "../../schemas";
 
 function monthNumberToName(monthNumber?: string) {
   const currentYear = new Date().getFullYear();
@@ -34,16 +34,26 @@ function monthNumberToName(monthNumber?: string) {
 }
 
 export const loader = async () => {
-  const queryClient = postgres(process.env.DATABASE_URL as string);
-  const db = drizzle(queryClient, {
-    schema,
-  });
-
   const payments = await db.query.payment.findMany({
     with: {
       categories: true,
     },
+    orderBy: payment.paidOn,
   });
+
+  // type Payment = InferModel<typeof payment>;
+
+  /**
+   * Make a query for each month instead.
+   *
+   * Query for the current month and 2 previous months.
+   * Keep searching until you can show at least 3 months.
+   * Maximum check for the last 10 months.
+   * You can get the oldest payment date to know if you need
+   * to show "Load more" button.
+   */
+
+  // const payments = await db.select().from(payment).orderBy(payment.paidOn);
 
   console.log("payments", payments);
 
