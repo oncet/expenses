@@ -55,7 +55,8 @@ function getMonthLastDay(date: Date) {
 }
 
 export const loader = async () => {
-  const currentMonthStartDate = getMonthStartDay(new Date());
+  const currentDate = new Date();
+  const currentMonthStartDate = getMonthStartDay(currentDate);
   const currentMonthEndDate = getMonthLastDay(currentMonthStartDate);
 
   const currentMonthPayments = await db.query.payment.findMany({
@@ -66,7 +67,27 @@ export const loader = async () => {
     orderBy: payment.paidOn,
   });
 
-  console.log("currentMonthPayments", currentMonthPayments);
+  // console.log("currentMonthPayments", currentMonthPayments);
+
+  const collector = [];
+  let index = 0;
+
+  // Do until you get 3 months with a limit of 5 loops
+  while (collector.length < 3 && index < 5) {
+    console.log("Looping...", index, collector.length);
+
+    if (Math.random() < 0.5) {
+      console.log("Adding!");
+
+      collector.push("💕");
+    } else {
+      console.log("Not adding.");
+    }
+
+    index++;
+  }
+
+  console.log("collector", collector);
 
   return json({
     paymentsGroups,
