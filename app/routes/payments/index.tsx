@@ -21,37 +21,12 @@ import MonthCardHeading from "~/components/MonthCardHeading";
 import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
 import { payment } from "~/schemas";
+import {
+  getMonthLastDay,
+  getMonthStartDay,
+  monthNumberToName,
+} from "~/utils/dates";
 import { db } from "~/utils/db";
-
-function monthNumberToName(monthNumber?: string | number) {
-  const currentYear = new Date().getFullYear();
-  const date =
-    monthNumber !== undefined
-      ? new Date(currentYear, Number(monthNumber) - 1, 1)
-      : new Date();
-  return date.toLocaleString("en-US", { month: "long" });
-}
-
-function getMonthStartDay(date: Date) {
-  const monthStartDate = new Date(date);
-
-  monthStartDate.setDate(1);
-  monthStartDate.setHours(0, 0, 0, 0);
-
-  return monthStartDate;
-}
-
-function getMonthLastDay(date: Date) {
-  const monthEndDate = new Date(
-    date.getFullYear(),
-    date.getMonth() + 1, // Add 1 to get the next month first date
-    0 // Then set day to 0 to get previous month last date
-  );
-
-  monthEndDate.setHours(23, 59, 59, 999);
-
-  return monthEndDate;
-}
 
 export const loader = async () => {
   const paymentsGroups = [];
@@ -59,7 +34,6 @@ export const loader = async () => {
   const currentDate = new Date();
 
   for (let index = 0; index < 3; index++) {
-    // Go back N months
     currentDate.setMonth(currentDate.getMonth() - index);
 
     const monthStartDate = getMonthStartDay(currentDate);
@@ -88,8 +62,6 @@ export const loader = async () => {
 export default function Payments() {
   const { paymentsGroups } = useLoaderData<typeof loader>();
 
-  // console.log("paymentsGroups", paymentsGroups);
-
   const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
 
   return (
@@ -104,29 +76,6 @@ export default function Payments() {
           </Link>
         </Text>
       </Stack>
-      {/* <MonthCard>
-        <MonthCardHeading>
-          <Link
-            as={RemixLink}
-            to={`date/${monthNumberToName()}`}
-            px="4"
-            py="2"
-            display="block"
-          >
-            <HStack justifyContent="space-between">
-              <span>{monthNumberToName()} (current)</span> <ArrowRightIcon />
-            </HStack>
-          </Link>
-        </MonthCardHeading>
-        <Text
-          px="4"
-          py="2"
-          borderTop="1px solid"
-          borderColor={borderColorEmpty}
-        >
-          No payments registered for this month.
-        </Text>
-      </MonthCard> */}
       {paymentsGroups.map((paymentsGroup) => (
         <MonthCard key={paymentsGroup.month}>
           <MonthCardHeading>
