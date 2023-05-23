@@ -22,9 +22,8 @@ import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
 import { payment } from "~/schemas";
 import { db } from "~/utils/db";
-import { paymentsGroups } from "~/utils/mocks";
 
-function monthNumberToName(monthNumber?: string) {
+function monthNumberToName(monthNumber?: string | number) {
   const currentYear = new Date().getFullYear();
   const date =
     monthNumber !== undefined
@@ -55,60 +54,34 @@ function getMonthLastDay(date: Date) {
 }
 
 export const loader = async () => {
-  // const currentDate = new Date();
-  // const currentMonthStartDate = getMonthStartDay(currentDate);
-  // const currentMonthEndDate = getMonthLastDay(currentMonthStartDate);
-
-  // const currentMonthPayments = await db.query.payment.findMany({
-  //   with: {
-  //     categories: true,
-  //   },
-  //   where: between(payment.paidOn, currentMonthStartDate, currentMonthEndDate),
-  //   orderBy: payment.paidOn,
-  // });
-
-  // console.log("currentMonthPayments", currentMonthPayments);
-
-  const collector = [];
+  const paymentsGroups = [];
   let index = 0;
 
   // Do until you get 3 months with a limit of 5 loops
-  while (collector.length < 3 && index < 5) {
-    // console.log("Looping...", index, collector.length);
-
+  while (paymentsGroups.length < 3 && index < 5) {
     const currentDate = new Date();
 
     // Go back N months
     currentDate.setMonth(currentDate.getMonth() - index);
 
-    // console.log("currentDate", currentDate);
-
     const monthStartDate = getMonthStartDay(currentDate);
     const monthEndDate = getMonthLastDay(monthStartDate);
 
-    console.log("monthStartDate", monthStartDate);
-    console.log("monthEndDate", monthEndDate);
-
     const monthPayments = await db.query.payment.findMany({
       with: {
-        categories: true,
+        category: true,
       },
       where: between(payment.paidOn, monthStartDate, monthEndDate),
       orderBy: payment.paidOn,
     });
 
-    console.log("monthPayments", monthPayments.length);
-
     if (monthPayments.length) {
-      collector.push(monthPayments);
+      paymentsGroups.push({
+        year: currentDate.getFullYear(),
+        month: currentDate.getMonth(),
+        payments: monthPayments,
+      });
     }
-
-    // if (Math.random() < 0.5) {
-    //   console.log("Adding!");
-    //   collector.push("💕");
-    // } else {
-    //   console.log("Not adding.");
-    // }
 
     index++;
 
@@ -117,8 +90,6 @@ export const loader = async () => {
       break;
     }
   }
-
-  console.log("collector", collector);
 
   return json({
     paymentsGroups,
@@ -186,7 +157,7 @@ export default function Payments() {
               <Tbody>
                 {paymentsGroup.payments.map((payment) => (
                   <Tr key={payment.id}>
-                    <Td width="0">{payment.description}</Td>
+                    <Td width="0">{payment.category?.description}</Td>
                     <Td isNumeric>${payment.amount}</Td>
                   </Tr>
                 ))}
