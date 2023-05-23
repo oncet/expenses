@@ -55,12 +55,10 @@ function getMonthLastDay(date: Date) {
 
 export const loader = async () => {
   const paymentsGroups = [];
-  let index = 0;
 
-  // Do until you get 3 months with a limit of 5 loops
-  while (paymentsGroups.length < 3 && index < 5) {
-    const currentDate = new Date();
+  const currentDate = new Date();
 
+  for (let index = 0; index < 3; index++) {
     // Go back N months
     currentDate.setMonth(currentDate.getMonth() - index);
 
@@ -75,20 +73,11 @@ export const loader = async () => {
       orderBy: payment.paidOn,
     });
 
-    if (monthPayments.length) {
-      paymentsGroups.push({
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth(),
-        payments: monthPayments,
-      });
-    }
-
-    index++;
-
-    // Emergency break!
-    if (index > 10) {
-      break;
-    }
+    paymentsGroups.push({
+      year: currentDate.getFullYear(),
+      month: currentDate.getMonth() + 1,
+      payments: monthPayments,
+    });
   }
 
   return json({
@@ -98,6 +87,8 @@ export const loader = async () => {
 
 export default function Payments() {
   const { paymentsGroups } = useLoaderData<typeof loader>();
+
+  // console.log("paymentsGroups", paymentsGroups);
 
   const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
 
@@ -113,7 +104,7 @@ export default function Payments() {
           </Link>
         </Text>
       </Stack>
-      <MonthCard>
+      {/* <MonthCard>
         <MonthCardHeading>
           <Link
             as={RemixLink}
@@ -135,7 +126,7 @@ export default function Payments() {
         >
           No payments registered for this month.
         </Text>
-      </MonthCard>
+      </MonthCard> */}
       {paymentsGroups.map((paymentsGroup) => (
         <MonthCard key={paymentsGroup.month}>
           <MonthCardHeading>
