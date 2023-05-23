@@ -55,17 +55,17 @@ function getMonthLastDay(date: Date) {
 }
 
 export const loader = async () => {
-  const currentDate = new Date();
-  const currentMonthStartDate = getMonthStartDay(currentDate);
-  const currentMonthEndDate = getMonthLastDay(currentMonthStartDate);
+  // const currentDate = new Date();
+  // const currentMonthStartDate = getMonthStartDay(currentDate);
+  // const currentMonthEndDate = getMonthLastDay(currentMonthStartDate);
 
-  const currentMonthPayments = await db.query.payment.findMany({
-    with: {
-      categories: true,
-    },
-    where: between(payment.paidOn, currentMonthStartDate, currentMonthEndDate),
-    orderBy: payment.paidOn,
-  });
+  // const currentMonthPayments = await db.query.payment.findMany({
+  //   with: {
+  //     categories: true,
+  //   },
+  //   where: between(payment.paidOn, currentMonthStartDate, currentMonthEndDate),
+  //   orderBy: payment.paidOn,
+  // });
 
   // console.log("currentMonthPayments", currentMonthPayments);
 
@@ -74,17 +74,48 @@ export const loader = async () => {
 
   // Do until you get 3 months with a limit of 5 loops
   while (collector.length < 3 && index < 5) {
-    console.log("Looping...", index, collector.length);
+    // console.log("Looping...", index, collector.length);
 
-    if (Math.random() < 0.5) {
-      console.log("Adding!");
+    const currentDate = new Date();
 
-      collector.push("💕");
-    } else {
-      console.log("Not adding.");
+    // Go back N months
+    currentDate.setMonth(currentDate.getMonth() - index);
+
+    // console.log("currentDate", currentDate);
+
+    const monthStartDate = getMonthStartDay(currentDate);
+    const monthEndDate = getMonthLastDay(monthStartDate);
+
+    console.log("monthStartDate", monthStartDate);
+    console.log("monthEndDate", monthEndDate);
+
+    const monthPayments = await db.query.payment.findMany({
+      with: {
+        categories: true,
+      },
+      where: between(payment.paidOn, monthStartDate, monthEndDate),
+      orderBy: payment.paidOn,
+    });
+
+    console.log("monthPayments", monthPayments.length);
+
+    if (monthPayments.length) {
+      collector.push(monthPayments);
     }
 
+    // if (Math.random() < 0.5) {
+    //   console.log("Adding!");
+    //   collector.push("💕");
+    // } else {
+    //   console.log("Not adding.");
+    // }
+
     index++;
+
+    // Emergency break!
+    if (index > 10) {
+      break;
+    }
   }
 
   console.log("collector", collector);
