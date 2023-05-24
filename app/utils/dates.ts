@@ -2,7 +2,7 @@ export function monthNumberToName(monthNumber?: string | number) {
   const currentYear = new Date().getFullYear();
   const date =
     monthNumber !== undefined
-      ? new Date(currentYear, Number(monthNumber) - 1, 1)
+      ? new Date(currentYear, Number(monthNumber), 1)
       : new Date();
   return date.toLocaleString("en-US", { month: "long" });
 }

@@ -49,7 +49,7 @@ export const loader = async () => {
 
     paymentsGroups.push({
       year: currentDate.getFullYear(),
-      month: currentDate.getMonth() + 1,
+      month: currentDate.getMonth(),
       payments: monthPayments,
     });
   }
@@ -106,7 +106,6 @@ export default function Payments() {
                   </Tbody>
                 </Table>
               </TableContainer>
-
               <Text px="4" py="2" textAlign="right">
                 And 8 more...
               </Text>
