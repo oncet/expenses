@@ -18,6 +18,7 @@ import { between } from "drizzle-orm";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
+import PaymentsTable from "~/components/PaymentsTable";
 import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
 import { payment } from "~/schemas";
@@ -94,18 +95,14 @@ export default function Payments() {
           </MonthCardHeading>
           {paymentsGroup.payments.length ? (
             <>
-              <TableContainer>
-                <Table size="sm" variant="striped">
-                  <Tbody>
-                    {paymentsGroup.payments.map((payment) => (
-                      <Tr key={payment.id}>
-                        <Td width="0">{payment.category?.description}</Td>
-                        <Td isNumeric>${payment.amount}</Td>
-                      </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </TableContainer>
+              <PaymentsTable>
+                {paymentsGroup.payments.map((payment) => (
+                  <Tr key={payment.id}>
+                    <Td width="0">{payment.category?.description}</Td>
+                    <Td isNumeric>${payment.amount}</Td>
+                  </Tr>
+                ))}
+              </PaymentsTable>
               <Text px="4" py="2" textAlign="right">
                 And 8 more...
               </Text>
