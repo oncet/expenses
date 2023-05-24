@@ -4,9 +4,6 @@ import {
   Heading,
   Link,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
   Td,
   Text,
   Tr,
@@ -63,7 +60,7 @@ export const loader = async () => {
 export default function Payments() {
   const { paymentsGroups } = useLoaderData<typeof loader>();
 
-  const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
+  const emptyStateBorderColor = useColorModeValue("gray.100", "gray.700");
 
   return (
     <Stack spacing="4">
@@ -112,7 +109,7 @@ export default function Payments() {
               px="4"
               py="2"
               borderTop="1px solid"
-              borderColor={borderColorEmpty}
+              borderColor={emptyStateBorderColor}
             >
               No payments registered for this month.
             </Text>
