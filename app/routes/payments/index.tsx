@@ -95,7 +95,7 @@ export default function Payments() {
               <PaymentsTable>
                 {paymentsGroup.payments.map((payment) => (
                   <Tr key={payment.id}>
-                    <Td width="0">{payment.category?.description}</Td>
+                    <Td width="0">{payment.category.description}</Td>
                     <Td isNumeric>${payment.amount}</Td>
                   </Tr>
                 ))}
