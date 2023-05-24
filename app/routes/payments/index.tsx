@@ -92,21 +92,35 @@ export default function Payments() {
               </HStack>
             </Link>
           </MonthCardHeading>
-          <TableContainer>
-            <Table size="sm" variant="striped">
-              <Tbody>
-                {paymentsGroup.payments.map((payment) => (
-                  <Tr key={payment.id}>
-                    <Td width="0">{payment.category?.description}</Td>
-                    <Td isNumeric>${payment.amount}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <Text px="4" py="2" textAlign="right">
-            And 8 more...
-          </Text>
+          {paymentsGroup.payments.length ? (
+            <>
+              <TableContainer>
+                <Table size="sm" variant="striped">
+                  <Tbody>
+                    {paymentsGroup.payments.map((payment) => (
+                      <Tr key={payment.id}>
+                        <Td width="0">{payment.category?.description}</Td>
+                        <Td isNumeric>${payment.amount}</Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+
+              <Text px="4" py="2" textAlign="right">
+                And 8 more...
+              </Text>
+            </>
+          ) : (
+            <Text
+              px="4"
+              py="2"
+              borderTop="1px solid"
+              borderColor={borderColorEmpty}
+            >
+              No payments registered for this month.
+            </Text>
+          )}
         </MonthCard>
       ))}
       <Form>
