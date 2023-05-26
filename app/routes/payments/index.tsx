@@ -72,7 +72,6 @@ export const loader = async () => {
   oldestPaymentDate?.setDate(1);
   oldestPaymentDate?.setHours(0, 0, 0, 0);
 
-  // TODO Type should be | undefined?
   const oldestPaymentsGroup = paymentsGroups[paymentsGroups.length - 1];
 
   const currentOldestDate = new Date(
