@@ -4,9 +4,6 @@ import {
   Heading,
   Link,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
   Td,
   Text,
   Tr,
@@ -14,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { json } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
-import { between } from "drizzle-orm";
+import { between, sql } from "drizzle-orm";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
@@ -28,6 +25,8 @@ import {
   monthNumberToName,
 } from "~/utils/dates";
 import { db } from "~/utils/db";
+
+const paymentsPerMonthLimit = 3;
 
 export const loader = async () => {
   const paymentsGroups = [];
@@ -46,12 +45,21 @@ export const loader = async () => {
       },
       where: between(payment.paidOn, monthStartDate, monthEndDate),
       orderBy: payment.paidOn,
+      limit: paymentsPerMonthLimit,
     });
+
+    const monthPaymentsCount = await db
+      .select({
+        count: sql<number>`count(*)`,
+      })
+      .from(payment)
+      .where(between(payment.paidOn, monthStartDate, monthEndDate));
 
     paymentsGroups.push({
       year: currentDate.getFullYear(),
       month: currentDate.getMonth(),
       payments: monthPayments,
+      count: monthPaymentsCount[0].count,
     });
   }
 
@@ -103,9 +111,11 @@ export default function Payments() {
                   </Tr>
                 ))}
               </PaymentsTable>
-              <Text px="4" py="2" textAlign="right">
-                And 8 more...
-              </Text>
+              {paymentsGroup.count > paymentsPerMonthLimit && (
+                <Text px="4" py="2" textAlign="right">
+                  And {paymentsGroup.count - paymentsPerMonthLimit} more...
+                </Text>
+              )}
             </>
           ) : (
             <Text
