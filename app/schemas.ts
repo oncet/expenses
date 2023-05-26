@@ -15,7 +15,7 @@ export const payment = pgTable("payments", {
     .references(() => category.id)
     .notNull(),
   amount: numeric("amount"),
-  paidOn: timestamp("paid_on"),
+  paidOn: timestamp("paid_on").notNull(),
   description: text("description"),
 });
 

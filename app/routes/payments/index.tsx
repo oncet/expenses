@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { json } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
-import { between, sql } from "drizzle-orm";
+import { asc, between, sql } from "drizzle-orm";
 
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
@@ -26,14 +26,14 @@ import {
 } from "~/utils/dates";
 import { db } from "~/utils/db";
 
-const paymentsPerMonthLimit = 3;
+const paymentsPerMonthLimit = 5;
 
 export const loader = async () => {
   const paymentsGroups = [];
 
-  const currentDate = new Date();
+  for (let index = 0; index < 4; index++) {
+    const currentDate = new Date();
 
-  for (let index = 0; index < 3; index++) {
     currentDate.setMonth(currentDate.getMonth() - index);
 
     const monthStartDate = getMonthStartDay(currentDate);
@@ -63,13 +63,35 @@ export const loader = async () => {
     });
   }
 
+  const oldestPayment = await db.query.payment.findFirst({
+    orderBy: asc(payment.paidOn),
+  });
+
+  const oldestPaymentDate = oldestPayment && new Date(oldestPayment.paidOn);
+
+  oldestPaymentDate?.setDate(1);
+  oldestPaymentDate?.setHours(0, 0, 0, 0);
+
+  // TODO Type should be | undefined?
+  const oldestPaymentsGroup = paymentsGroups[paymentsGroups.length - 1];
+
+  const currentOldestDate = new Date(
+    oldestPaymentsGroup.year,
+    oldestPaymentsGroup.month
+  );
+
+  const hasMore = oldestPaymentDate
+    ? oldestPaymentDate < currentOldestDate
+    : false;
+
   return json({
     paymentsGroups,
+    hasMore,
   });
 };
 
 export default function Payments() {
-  const { paymentsGroups } = useLoaderData<typeof loader>();
+  const { paymentsGroups, hasMore } = useLoaderData<typeof loader>();
 
   const borderColorEmpty = useColorModeValue("gray.100", "gray.700");
 
@@ -129,11 +151,13 @@ export default function Payments() {
           )}
         </MonthCard>
       ))}
-      <Form>
-        <Stack>
-          <Button>Load more</Button>
-        </Stack>
-      </Form>
+      {hasMore && (
+        <Form>
+          <Stack>
+            <Button>Load more</Button>
+          </Stack>
+        </Form>
+      )}
     </Stack>
   );
 }
