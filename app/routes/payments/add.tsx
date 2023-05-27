@@ -18,9 +18,11 @@ import { db } from "~/utils/db";
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
 
-  console.log("formData", formData);
+  console.log("formData", ...formData);
 
-  return redirect(`/payments`);
+  // return redirect(`/payments`);
+
+  return true;
 };
 
 export const loader = async () => {
@@ -52,19 +54,19 @@ export default function Add() {
           </FormControl>
           <FormControl>
             <FormLabel>Or enter new one</FormLabel>
-            <Input />
+            <Input name="newCategory" />
           </FormControl>
           <FormControl>
             <FormLabel>Payment amount</FormLabel>
-            <Input type="number" />
+            <Input name="amount" type="number" />
           </FormControl>
           <FormControl>
             <FormLabel>Date</FormLabel>
-            <Input type="date" />
+            <Input name="paidOn" type="date" />
           </FormControl>
           <FormControl>
             <FormLabel>Details</FormLabel>
-            <Textarea />
+            <Textarea name="description" />
             <FormHelperText>Enter additional details.</FormHelperText>
           </FormControl>
           <FormControl>
