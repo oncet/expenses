@@ -9,16 +9,31 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
+import { db } from "~/utils/db";
+
+export const loader = async () => {
+  const categories = await db.query.category.findMany();
+
+  return json({
+    categories,
+  });
+};
 
 export default function Add() {
+  const { categories } = useLoaderData<typeof loader>();
+
   return (
     <Stack spacing="4">
       <Heading as="h2">Add new payment</Heading>
       <FormControl>
         <FormLabel>Select category</FormLabel>
         <Select>
-          <option>Personal</option>
-          <option>Alquiler</option>
+          {categories.map((category) => (
+            <option key={category.id}>{category.description}</option>
+          ))}
         </Select>
       </FormControl>
       <FormControl>
