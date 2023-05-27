@@ -16,7 +16,6 @@ import { asc, between, sql } from "drizzle-orm";
 import MonthCard from "~/components/MonthCard";
 import MonthCardHeading from "~/components/MonthCardHeading";
 import PaymentsTable from "~/components/PaymentsTable";
-import ArrowRightIcon from "~/components/icons/ArrowRightIcon";
 import PlusIcon from "~/components/icons/PlusIcon";
 import { payment } from "~/schemas";
 import {
@@ -31,7 +30,7 @@ const paymentsPerMonthLimit = 5;
 export const loader = async () => {
   const paymentsGroups = [];
 
-  for (let index = 0; index < 4; index++) {
+  for (let index = 0; index < 3; index++) {
     const currentDate = new Date();
 
     currentDate.setMonth(currentDate.getMonth() - index);
@@ -108,19 +107,10 @@ export default function Payments() {
       </Stack>
       {paymentsGroups.map((paymentsGroup) => (
         <MonthCard key={paymentsGroup.month}>
-          <MonthCardHeading>
-            <Link
-              as={RemixLink}
-              to={`date/${paymentsGroup.year}/${paymentsGroup.month}`}
-              px="4"
-              py="2"
-              display="block"
-            >
-              <HStack justifyContent="space-between">
-                <span>{monthNumberToName(paymentsGroup.month)}</span>
-                <ArrowRightIcon />
-              </HStack>
-            </Link>
+          <MonthCardHeading
+            to={`date/${paymentsGroup.year}/${paymentsGroup.month}`}
+          >
+            {monthNumberToName(paymentsGroup.month)}
           </MonthCardHeading>
           {paymentsGroup.payments.length ? (
             <>
