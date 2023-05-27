@@ -15,7 +15,7 @@ export const payment = pgTable("payments", {
     .references(() => category.id)
     .notNull(),
   amount: numeric("amount"),
-  paidOn: timestamp("paid_on"),
+  paidOn: timestamp("paid_on").notNull(),
   description: text("description"),
 });
 
@@ -34,6 +34,8 @@ export const category = pgTable("categories", {
 
 export const attachment = pgTable("attachments", {
   id: serial("id").primaryKey(),
-  paymentId: integer("payment_id").references(() => payment.id),
-  url: varchar("url"),
+  paymentId: integer("payment_id")
+    .references(() => payment.id)
+    .notNull(),
+  url: varchar("url").notNull(),
 });
