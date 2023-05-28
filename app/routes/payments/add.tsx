@@ -19,7 +19,7 @@ import { db } from "~/utils/db";
 export const action = async ({ request }: ActionArgs) => {
   const formData = Object.fromEntries(await request.formData());
 
-  const results = await db
+  const [results] = await db
     .insert(payment)
     .values({
       categoryId: Number(formData.category),
@@ -29,7 +29,7 @@ export const action = async ({ request }: ActionArgs) => {
     })
     .returning({ newPaymentId: payment.id });
 
-  return redirect("/payments/" + results[0].newPaymentId);
+  return redirect("/payments/" + results.newPaymentId);
 };
 
 export const loader = async () => {
