@@ -11,24 +11,25 @@ import {
 } from "@chakra-ui/react";
 import type { ActionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useLoaderData, useActionData, Form } from "@remix-run/react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 
-import { db } from "~/utils/db";
 import { payment } from "~/schemas";
+import { db } from "~/utils/db";
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = Object.fromEntries(await request.formData());
 
-  await db.insert(payment).values({
-    categoryId: Number(formData.category),
-    paidOn: new Date(formData.paidOn as string),
-    amount: formData.amount as string,
-    description: formData.description as string,
-  });
+  const results = await db
+    .insert(payment)
+    .values({
+      categoryId: Number(formData.category),
+      paidOn: new Date(formData.paidOn as string),
+      amount: formData.amount as string,
+      description: formData.description as string,
+    })
+    .returning({ newPaymentId: payment.id });
 
-  // return redirect(`/payments`);
-
-  return true;
+  return redirect("/payments/" + results[0].newPaymentId);
 };
 
 export const loader = async () => {
