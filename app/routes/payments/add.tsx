@@ -12,24 +12,50 @@ import {
 import type { ActionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { eq } from "drizzle-orm";
 
-import { payment } from "~/schemas";
+import { category, payment } from "~/schemas";
 import { db } from "~/utils/db";
+
+const findOrCreateCategory = async (description: string) => {
+  const existingCategory = await db.query.category.findFirst({
+    where: eq(category.description, description),
+  });
+
+  if (existingCategory) return existingCategory.id;
+
+  const [results] = await db
+    .insert(category)
+    .values({
+      description,
+    })
+    .returning({ newCategoryId: category.id });
+
+  return results.newCategoryId;
+};
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = Object.fromEntries(await request.formData());
 
+  const categoryId = formData.newCategory
+    ? await findOrCreateCategory(formData.newCategory as string)
+    : Number(formData.category);
+
   const [results] = await db
     .insert(payment)
     .values({
-      categoryId: Number(formData.category),
+      categoryId,
       paidOn: new Date(formData.paidOn as string),
       amount: formData.amount as string,
       description: formData.description as string,
     })
     .returning({ newPaymentId: payment.id });
 
-  return redirect("/payments/" + results.newPaymentId);
+  console.log("results", results);
+
+  // return redirect("/payments/" + results.newPaymentId);
+
+  return true;
 };
 
 export const loader = async () => {
