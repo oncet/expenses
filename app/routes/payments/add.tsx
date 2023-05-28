@@ -14,11 +14,17 @@ import { json, redirect } from "@remix-run/node";
 import { useLoaderData, useActionData, Form } from "@remix-run/react";
 
 import { db } from "~/utils/db";
+import { payment } from "~/schemas";
 
 export const action = async ({ request }: ActionArgs) => {
-  const formData = await request.formData();
+  const formData = Object.fromEntries(await request.formData());
 
-  console.log("formData", ...formData);
+  await db.insert(payment).values({
+    categoryId: Number(formData.category),
+    paidOn: new Date(formData.paidOn as string),
+    amount: formData.amount as string,
+    description: formData.description as string,
+  });
 
   // return redirect(`/payments`);
 
@@ -46,9 +52,11 @@ export default function Add() {
         <Stack spacing="4">
           <FormControl>
             <FormLabel>Select category</FormLabel>
-            <Select>
+            <Select name="category">
               {categories.map((category) => (
-                <option key={category.id}>{category.description}</option>
+                <option key={category.id} value={category.id}>
+                  {category.description}
+                </option>
               ))}
             </Select>
           </FormControl>
@@ -58,11 +66,11 @@ export default function Add() {
           </FormControl>
           <FormControl>
             <FormLabel>Payment amount</FormLabel>
-            <Input name="amount" type="number" />
+            <Input name="amount" type="number" required />
           </FormControl>
           <FormControl>
             <FormLabel>Date</FormLabel>
-            <Input name="paidOn" type="date" />
+            <Input name="paidOn" type="date" required />
           </FormControl>
           <FormControl>
             <FormLabel>Details</FormLabel>

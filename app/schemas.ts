@@ -14,7 +14,7 @@ export const payment = pgTable("payments", {
   categoryId: integer("category_id")
     .references(() => category.id)
     .notNull(),
-  amount: numeric("amount"),
+  amount: numeric("amount").notNull(),
   paidOn: timestamp("paid_on").notNull(),
   description: text("description"),
 });
