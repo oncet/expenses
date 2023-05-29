@@ -15,8 +15,18 @@ import {
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
+import { eq } from "drizzle-orm";
+
+import { payment } from "~/schemas";
+import { db } from "~/utils/db";
 
 export const loader = async ({ params }: LoaderArgs) => {
+  const currentPayment = await db.query.payment.findFirst({
+    where: eq(payment.id, Number(params.id)),
+  });
+
+  console.log("currentPayment", currentPayment);
+
   return json({
     payment: {
       id: params.id,

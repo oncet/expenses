@@ -51,11 +51,7 @@ export const action = async ({ request }: ActionArgs) => {
     })
     .returning({ newPaymentId: payment.id });
 
-  console.log("results", results);
-
-  // return redirect("/payments/" + results.newPaymentId);
-
-  return true;
+  return redirect("/payments/" + results.newPaymentId);
 };
 
 export const loader = async () => {
