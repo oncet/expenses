@@ -12,15 +12,57 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import type { LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
+import { format } from "date-fns";
 import { eq } from "drizzle-orm";
 
-import { payment } from "~/schemas";
+import { category, payment } from "~/schemas";
 import { db } from "~/utils/db";
 
+const findOrCreateCategory = async (description: string) => {
+  const existingCategory = await db.query.category.findFirst({
+    where: eq(category.description, description),
+  });
+
+  if (existingCategory) return existingCategory.id;
+
+  const [results] = await db
+    .insert(category)
+    .values({
+      description,
+    })
+    .returning({ newCategoryId: category.id });
+
+  return results.newCategoryId;
+};
+
+export const action = async ({ request, params }: ActionArgs) => {
+  const formData = Object.fromEntries(await request.formData());
+
+  console.log("formData", formData);
+
+  const categoryId = formData.newCategory
+    ? await findOrCreateCategory(formData.newCategory as string)
+    : Number(formData.category);
+
+  await db
+    .update(payment)
+    .set({
+      categoryId,
+      paidOn: new Date(formData.paidOn as string),
+      amount: formData.amount as string,
+      description: formData.description as string,
+    })
+    .where(eq(payment.id, Number(params.id)));
+
+  return redirect("/payments/" + params.id);
+};
+
 export const loader = async ({ params }: LoaderArgs) => {
+  const categories = await db.query.category.findMany();
+
   const currentPayment = await db.query.payment.findFirst({
     where: eq(payment.id, Number(params.id)),
   });
@@ -33,12 +75,13 @@ export const loader = async ({ params }: LoaderArgs) => {
   }
 
   return json({
-    payment: currentPayment,
+    currentPayment,
+    categories,
   });
 };
 
 export default function Edit() {
-  const { payment } = useLoaderData<typeof loader>();
+  const { currentPayment, categories } = useLoaderData<typeof loader>();
 
   return (
     <Stack spacing="4">
@@ -51,32 +94,46 @@ export default function Edit() {
           </BreadcrumbItem>
           <BreadcrumbItem>
             <BreadcrumbLink as={RemixLink} to="/payments/123">
-              Payment #{payment.id}
+              Payment #{currentPayment.id}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading as="h2">Edit payment #{payment.id}</Heading>
+        <Heading as="h2">Edit payment #{currentPayment.id}</Heading>
       </Stack>
-      <Form>
+      <Form method="post">
         <Stack spacing="4">
           <FormControl>
             <FormLabel>Select an existing description</FormLabel>
-            <Select>
-              <option>Personal</option>
-              <option>Alquiler</option>
+            <Select name="category">
+              {categories.map((category) => (
+                <option
+                  key={category.id}
+                  value={category.id}
+                  selected={category.id === currentPayment.categoryId}
+                >
+                  {category.description}
+                </option>
+              ))}
             </Select>
           </FormControl>
           <FormControl>
             <FormLabel>Or enter a new one</FormLabel>
-            <Input />
+            <Input name="newCategory" />
           </FormControl>
           <FormControl>
             <FormLabel>Payment amount</FormLabel>
-            <Input type="number" />
+            <Input
+              type="number"
+              name="amount"
+              defaultValue={currentPayment.amount}
+            />
           </FormControl>
           <FormControl>
             <FormLabel>Details</FormLabel>
-            <Textarea />
+            <Textarea
+              name="description"
+              defaultValue={currentPayment.description || ""}
+            />
             <FormHelperText>Enter any additional details.</FormHelperText>
           </FormControl>
           <FormControl>
@@ -99,9 +156,18 @@ export default function Edit() {
           </FormControl>
           <FormControl>
             <FormLabel>Date</FormLabel>
-            <Input type="date" />
+            <Input
+              type="date"
+              name="paidOn"
+              defaultValue={format(
+                new Date(currentPayment.paidOn),
+                "yyyy-MM-dd"
+              )}
+            />
           </FormControl>
-          <Button colorScheme="blue">Save changes</Button>
+          <Button colorScheme="blue" type="submit">
+            Save changes
+          </Button>
           <Button variant="outline" colorScheme="red">
             Delete payment
           </Button>
