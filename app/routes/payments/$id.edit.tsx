@@ -25,12 +25,15 @@ export const loader = async ({ params }: LoaderArgs) => {
     where: eq(payment.id, Number(params.id)),
   });
 
-  console.log("currentPayment", currentPayment);
+  if (!currentPayment) {
+    throw new Response(null, {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
 
   return json({
-    payment: {
-      id: params.id,
-    },
+    payment: currentPayment,
   });
 };
 
