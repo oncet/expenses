@@ -15,7 +15,7 @@ import {
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link as RemixLink, useLoaderData } from "@remix-run/react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { eq } from "drizzle-orm";
 
 import { category, payment } from "~/schemas";
@@ -104,13 +104,9 @@ export default function Edit() {
         <Stack spacing="4">
           <FormControl>
             <FormLabel>Select an existing description</FormLabel>
-            <Select name="category">
+            <Select name="category" defaultValue={currentPayment.categoryId}>
               {categories.map((category) => (
-                <option
-                  key={category.id}
-                  value={category.id}
-                  selected={category.id === currentPayment.categoryId}
-                >
+                <option key={category.id} value={category.id}>
                   {category.description}
                 </option>
               ))}
@@ -160,7 +156,11 @@ export default function Edit() {
               type="date"
               name="paidOn"
               defaultValue={format(
-                new Date(currentPayment.paidOn),
+                parse(
+                  currentPayment.paidOn,
+                  "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                  new Date()
+                ),
                 "yyyy-MM-dd"
               )}
             />
