@@ -22,6 +22,9 @@ import { db } from "~/utils/db";
 export const loader = async ({ params }: LoaderArgs) => {
   const currentPayment = await db.query.payment.findFirst({
     where: eq(payment.id, Number(params.id)),
+    with: {
+      category: true,
+    },
   });
 
   if (!currentPayment) {
@@ -49,7 +52,9 @@ export default function View() {
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading as="h2">Personal (#{currentPayment.id})</Heading>
+        <Heading as="h2">
+          {currentPayment.category.description} (#{currentPayment.id})
+        </Heading>
         <Text>
           <Link as={RemixLink} to="edit" display="block">
             <HStack as="span">
