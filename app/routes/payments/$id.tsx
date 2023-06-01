@@ -13,19 +13,31 @@ import {
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link as RemixLink, useLoaderData } from "@remix-run/react";
+import { eq } from "drizzle-orm";
 
 import PencilSquareIcon from "~/components/icons/PencilSquareIcon";
+import { payment } from "~/schemas";
+import { db } from "~/utils/db";
 
 export const loader = async ({ params }: LoaderArgs) => {
+  const currentPayment = await db.query.payment.findFirst({
+    where: eq(payment.id, Number(params.id)),
+  });
+
+  if (!currentPayment) {
+    throw new Response(null, {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
+
   return json({
-    payment: {
-      id: params.id,
-    },
+    currentPayment,
   });
 };
 
 export default function View() {
-  const { payment } = useLoaderData<typeof loader>();
+  const { currentPayment } = useLoaderData<typeof loader>();
 
   return (
     <Stack spacing="4">
@@ -37,7 +49,7 @@ export default function View() {
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading as="h2">Personal (#{payment.id})</Heading>
+        <Heading as="h2">Personal (#{currentPayment.id})</Heading>
         <Text>
           <Link as={RemixLink} to="edit" display="block">
             <HStack as="span">
@@ -55,22 +67,24 @@ export default function View() {
             {Intl.NumberFormat(undefined, {
               style: "currency",
               currency: "USD",
-            }).format(180000)}
+            }).format(+currentPayment.amount)}
           </chakra.dd>
         </Box>
         <Box>
           <chakra.dt>
             <strong>Date</strong>
           </chakra.dt>
-          <chakra.dd>
-            Thu May 18 2023 15:39:13 GMT-0300 (Argentina Standard Time)
-          </chakra.dd>
+          <chakra.dd>{currentPayment.paidOn}</chakra.dd>
         </Box>
         <Box>
           <chakra.dt>
             <strong>Details</strong>
           </chakra.dt>
-          <chakra.dd>No details.</chakra.dd>
+          <chakra.dd>
+            {currentPayment.description
+              ? currentPayment.description
+              : "No details."}
+          </chakra.dd>
         </Box>
         <Box>
           <chakra.dt>
